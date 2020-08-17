@@ -1,0 +1,15 @@
+<nb-layout>
+  <nb-layout-header subheader>
+    <button nbButton ghost (click)="toggle()">
+      <nb-icon icon="menu-outline"></nb-icon></button>
+      <div style="margin-left: 1rem;">
+        Company Name
+      </div>
+  </nb-layout-header>
+
+  <nb-sidebar [fixed]="isSidebarFixed" [collapsedBreakpoints]="collapsedBreakpoints" compactedBreakpoints="[]" [responsive]="responsive">Heheh</nb-sidebar>
+
+  <nb-layout-column>
+    Page Content <button nbButton>Hello World</button>
+  </nb-layout-column>
+</nb-layout>
