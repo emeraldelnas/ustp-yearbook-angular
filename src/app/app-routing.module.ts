@@ -1,14 +1,27 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
-import { AdminDashComponent } from './admin-dash/admin-dash.component';
+import { AuthGuard } from './auth/guard/auth-guard.service';
+import { DashComponent } from './admin/dash/dash.component';
+import { GraduateFormComponent } from './graduate-form/graduate-form.component';
 
 const routes: Routes = [
-  { path: 'admin-dash', component: AdminDashComponent },
+  {
+    path: 'admin',
+    canActivate: [AuthGuard], // here we tell Angular to check the access with our AuthGuard
+    loadChildren: () => import('./admin/admin.module').then(mod => mod.AdminModule)
+  },
+  {
+    path: 'auth',
+    loadChildren: './auth/auth.module#NgxAuthModule'
+  },
+  {  path: '', component: GraduateFormComponent  },
+  {  path: '**', redirectTo: '/'  }
+
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules, scrollPositionRestoration: 'top' })],
+  imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'top' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

@@ -1,1 +1,38 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@nebular/theme/styles/theming';
+@import '~@nebular/theme/styles/themes/default';
+
+@import '~@nebular/theme/styles/globals';
+@import '~@nebular/auth/styles/globals';
+
+
+@include nb-install() {
+  @include nb-theme-global();
+  @include nb-auth-global();
+};
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.form-control-group {
+  &:not(:last-child) {
+    margin-bottom: 1.5rem;
+  }
+
+  > * {
+    display: block;
+  }
+
+  label {
+    color: #69758d !important;
+    margin-bottom: 0.5rem;
+  }
+}

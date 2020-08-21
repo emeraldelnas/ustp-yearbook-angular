@@ -1,0 +1,239 @@
+<nb-layout>
+  <nb-layout-column>
+
+    <nb-card class="form-card">
+      <nb-card-body>
+        <form [formGroup]="graduateForm" class="step-container">
+          <p class="form-group-title">Personal Info</p>
+          <div class="form-groups">
+            <div class="form-control-group">
+              <label class="label" for="idNo">ID No:</label>
+              <input nbInput fullWidth
+                formControlName="idNo"
+                name="idNo"
+                type="number"
+                id="idNo"
+                placeholder="2014100434">
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="name">Name:</label>
+              <input nbInput fullWidth
+                formControlName="name"
+                name="name"
+                type="text"
+                id="name"
+                placeholder="Thomas Detreyn">
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="email">Email:</label>
+              <input nbInput fullWidth
+                formControlName="email"
+                name="email"
+                type="email"
+                id="email"
+                placeholder="thomas@example.com">
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="mobile">Mobile:</label>
+              <input nbInput fullWidth
+                formControlName="mobile"
+                name="mobile"
+                type="number"
+                id="mobile"
+                placeholder="09769325418">
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="birthday">Birthday</label>
+              <input nbInput fullWidth id="birthday" [nbDatepicker]="birthday" formControlName="birthday">
+              <nb-datepicker #birthday></nb-datepicker>
+            </div>
+          </div>
+
+
+
+
+
+          <p class="form-group-title">Graduate Info</p>
+          <div class="form-groups">
+            <div class="form-control-group">
+              <label class="label" for="course">Course:</label>
+              <input nbInput fullWidth
+                formControlName="course"
+                name="course"
+                type="text"
+                id="course"
+                placeholder="BS Information Technology">
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="college">College:</label>
+              <input nbInput fullWidth
+                formControlName="college"
+                name="college"
+                type="text"
+                id="college"
+                placeholder="College of Information Technology">
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="affiliations">Affiliations:</label>
+              <textarea nbInput fullWidth
+                formControlName="affiliations"
+                name="affiliations"
+                id="affiliations"
+                placeholder="Max of 3 Affiliations."
+                rows="5"></textarea>
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="awards">Awards:</label>
+              <textarea nbInput fullWidth
+                formControlName="awards"
+                name="awards"
+                id="awards"
+                placeholder="Max of 3 Awards."
+                rows="5"></textarea>
+            </div>
+            <div class="form-control-group">
+              <label class="label" for="motto">Motto:</label>
+              <textarea nbInput fullWidth
+                formControlName="motto"
+                name="motto"
+                id="motto"
+                placeholder="Life is good!"
+                rows="5"></textarea>
+            </div>
+          </div>
+
+
+
+
+          <p class="form-group-title">Schedule Photoshoot</p>
+          <div class="form-groups">
+            <div class="form-control-group">
+              <label class="label" for="shootDate">Shoot Date</label>
+              <input nbInput fullWidth id="shootDate" [nbDatepicker]="shootDate" formControlName="shootDate">
+              <nb-datepicker #shootDate [min]="minDate" [max]="maxDate"></nb-datepicker>
+            </div>
+
+
+
+
+            <div class="form-control-group">
+              <label class="label" for="timePeriod">AM or PM:</label>
+              <nb-radio-group formControlName="timePeriod" name="timePeriod">
+                <nb-radio
+                  *ngFor="let period of timePeriods"
+                  [value]="period.period">
+                  {{ period.period }}
+                </nb-radio>
+              </nb-radio-group>
+            </div>
+
+
+
+
+            <div class="form-control-group">
+              <label class="label" for="shootTime">Shoot Time</label>
+              <nb-radio-group formControlName="shootTime" class="timeslots" name="shootTime">
+                <nb-radio
+                  *ngFor="let timeSlot of filterTimeSlotsOfType(timePeriod.value)"
+                  [value]="timeSlot.value">
+                  {{ timeSlot.time }} {{ timeSlot.period }}
+                </nb-radio>
+              </nb-radio-group>
+            </div>
+          </div>
+
+
+
+          <p class="form-group-title">Payment Info</p>
+          <div class="form-groups">
+            <div class="form-control-group">
+              <label class="label" for="course">Package:</label>
+              <nb-radio-group formControlName="package" class="package-radio-group" name="package">
+                <nb-radio value="1">All in One</nb-radio>
+                <nb-radio value="2">Photoshoot Only</nb-radio>
+              </nb-radio-group>
+              <div class="package-info" *ngIf="package.value === '1'">
+                <div class="header">
+                  <p>"All in One" details:</p>
+                  <p>P2,090</p>
+                </div>
+                <div class="body">
+                  <p>1x Yearbook (Hard Copy)</p>
+                  <p>Photoshoot (Toga & Casual)</p>
+                  <p>Photos hard copies:</p>
+                  <div class="small">
+                    <p>1x 8R size</p>
+                    <p>1x 3R size</p>
+                    <p>1x 2R size</p>
+                  </div>
+                  <p>Single use laundered & disinfected toga</p>
+                </div>
+                <div class="footer">
+                  <p><span class="price">P1,600</span> - Yearbook (Hard Copy)</p>
+                  <p><span class="price">P450</span> - Photoshoot w/ Hard Copies</p>
+                  <p><span class="price">P40</span> - Operating Expense</p>
+                  <p class="total"><span class="price">P2,090</span> - Total</p>
+                </div>
+              </div>
+              <div class="package-info" *ngIf="package.value === '2'">
+                <div class="header">
+                  <p>"Photoshoot Only" details:</p>
+                  <p>P490</p>
+                </div>
+                <div class="body">
+                  <p class="strike">1x Yearbook (Hard Copy)</p>
+                  <p>Photoshoot (Toga & Casual)</p>
+                  <p>Photos hard copies:</p>
+                  <div class="small">
+                    <p>1x 8R size</p>
+                    <p>1x 3R size</p>
+                    <p>1x 2R size</p>
+                  </div>
+                  <p>Single use laundered & disinfected toga</p>
+                </div>
+                <div class="footer">
+                  <p><span class="price">P450</span> - Photoshoot w/ Hard Copies</p>
+                  <p><span class="price">P40</span> - Operating Expense</p>
+                  <p class="total"><span class="price">P490</span> - Total</p>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div class="form-control-group">
+              <label class="label" for="receiptDetails">Payment receipt details:</label>
+              <textarea nbInput fullWidth
+                formControlName="receiptDetails"
+                name="receiptDetails"
+                id="receiptDetails"
+                placeholder=""
+                rows="7"></textarea>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+          <button nbButton (click)="submit()">next</button>
+        </form>
+      </nb-card-body>
+    </nb-card>
+
+
+
+
+
+
+
+
+  </nb-layout-column>
+</nb-layout>

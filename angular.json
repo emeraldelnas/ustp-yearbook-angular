@@ -17,6 +17,12 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "firebase",
+              "@firebase/app",
+              "firebase/app",
+              "@firebase/auth"
+            ],
             "outputPath": "dist/ustp-yrbk-app",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -122,6 +128,10 @@
               "devServerTarget": "ustp-yrbk-app:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
     }

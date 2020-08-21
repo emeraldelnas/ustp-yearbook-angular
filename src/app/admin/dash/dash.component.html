@@ -2,12 +2,14 @@
   <nb-layout-header subheader>
     <button nbButton ghost (click)="toggle()">
       <nb-icon icon="menu-outline"></nb-icon></button>
-      <div style="margin-left: 1rem;">
-        Company Name
-      </div>
+      <p class="subtitle" style="margin-left: 1rem;">
+        Dashboard
+      </p>
   </nb-layout-header>
 
-  <nb-sidebar [fixed]="isSidebarFixed" [collapsedBreakpoints]="collapsedBreakpoints" compactedBreakpoints="[]" [responsive]="responsive">Heheh</nb-sidebar>
+  <nb-sidebar [fixed]="isSidebarFixed" [collapsedBreakpoints]="collapsedBreakpoints" compactedBreakpoints="[]" [responsive]="responsive">
+    <nb-menu [items]="items"></nb-menu>
+  </nb-sidebar>
 
   <nb-layout-column>
     Page Content <button nbButton>Hello World</button>

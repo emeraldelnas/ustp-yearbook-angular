@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "ustp-yearbook-1d789": {
+      "hosting": {
+        "ustp-yrbk-app": [
+          "ustp-yearbook-1d789"
+        ]
+      }
+    }
+  }
+}

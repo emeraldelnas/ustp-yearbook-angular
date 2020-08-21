@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminDashComponent } from './admin-dash.component';
+import { GraduateFormComponent } from './graduate-form.component';
 
-describe('AdminDashComponent', () => {
-  let component: AdminDashComponent;
-  let fixture: ComponentFixture<AdminDashComponent>;
+describe('GraduateFormComponent', () => {
+  let component: GraduateFormComponent;
+  let fixture: ComponentFixture<GraduateFormComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AdminDashComponent ]
+      declarations: [ GraduateFormComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdminDashComponent);
+    fixture = TestBed.createComponent(GraduateFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
