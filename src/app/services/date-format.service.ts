@@ -8,6 +8,10 @@ export class DateFormatService {
   constructor() { }
 
 
+  formatDate(date: Date) {
+    return date.toDateString().substr(4);
+  }
+
   formatTime(d, hour12) {
     function z(n){return (n<10?'0':'')+n}
     var h = d.getHours();

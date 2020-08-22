@@ -7,12 +7,12 @@
           <p class="form-group-title">Personal Info</p>
           <div class="form-groups">
             <div class="form-control-group">
-              <label class="label" for="idNo">ID No:</label>
+              <label class="label" for="id_number">ID No:</label>
               <input nbInput fullWidth
-                formControlName="idNo"
-                name="idNo"
+                formControlName="id_number"
+                name="id_number"
                 type="number"
-                id="idNo"
+                id="id_number"
                 placeholder="2014100434">
             </div>
             <div class="form-control-group">
@@ -108,21 +108,21 @@
           <p class="form-group-title">Schedule Photoshoot</p>
           <div class="form-groups">
             <div class="form-control-group">
-              <label class="label" for="shootDate">Shoot Date</label>
-              <input nbInput fullWidth id="shootDate" [nbDatepicker]="shootDate" formControlName="shootDate">
-              <nb-datepicker #shootDate [min]="minDate" [max]="maxDate"></nb-datepicker>
+              <label class="label" for="shoot_date">Shoot Date</label>
+              <input nbInput fullWidth id="shoot_date" [nbDatepicker]="shoot_date" formControlName="shoot_date">
+              <nb-datepicker #shoot_date [min]="minDate" [max]="maxDate"></nb-datepicker>
             </div>
 
 
 
 
             <div class="form-control-group">
-              <label class="label" for="timePeriod">AM or PM:</label>
-              <nb-radio-group formControlName="timePeriod" name="timePeriod">
+              <label class="label" for="time_period">AM or PM:</label>
+              <nb-radio-group formControlName="time_period" name="time_period">
                 <nb-radio
                   *ngFor="let period of timePeriods"
                   [value]="period.period">
-                  {{ period.period }}
+                  {{ period.period | uppercase}}
                 </nb-radio>
               </nb-radio-group>
             </div>
@@ -131,8 +131,8 @@
 
 
             <div class="form-control-group">
-              <label class="label" for="shootTime">Shoot Time</label>
-              <nb-radio-group formControlName="shootTime" class="timeslots" name="shootTime">
+              <label class="label" for="shoot_time">Shoot Time</label>
+              <nb-radio-group formControlName="shoot_time" class="timeslots" name="shoot_time">
                 <nb-radio
                   *ngFor="let timeSlot of filterTimeSlotsOfType(timePeriod.value)"
                   [value]="timeSlot.value">
@@ -202,11 +202,11 @@
 
 
             <div class="form-control-group">
-              <label class="label" for="receiptDetails">Payment receipt details:</label>
+              <label class="label" for="receipt_details">Payment receipt details:</label>
               <textarea nbInput fullWidth
-                formControlName="receiptDetails"
-                name="receiptDetails"
-                id="receiptDetails"
+                formControlName="receipt_details"
+                name="receipt_details"
+                id="receipt_details"
                 placeholder=""
                 rows="7"></textarea>
             </div>

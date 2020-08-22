@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { NbDateService } from '@nebular/theme';
 
 import { DateFormatService } from '../services/date-format.service';
+import { GraduateService } from '../services/graduate.service';
+import { Graduate } from '../models/graduate';
 
 @Component({
   selector: 'app-graduate-form',
@@ -15,8 +17,8 @@ export class GraduateFormComponent implements OnInit {
   maxDate: Date;
 
   timePeriods = [
-    {period: 'AM'},
-    {period: 'PM'}
+    {period: 'am'},
+    {period: 'pm'}
   ];
 
   graduateForm: FormGroup;
@@ -27,14 +29,17 @@ export class GraduateFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     protected dateService: NbDateService<Date>,
-    private df: DateFormatService) {
+    private df: DateFormatService,
+    private gs: GraduateService
+    ) {
+
     this.minDate = new Date('2020, 7');
     this.maxDate = new Date('2020, 9');
   }
 
   ngOnInit(): void {
     this.graduateForm = this.fb.group({
-      idNo: ['', Validators.required],
+      id_number: ['', Validators.required],
       name: ['', Validators.required],
       email: ['', Validators.required],
       mobile: ['', Validators.required],
@@ -45,14 +50,17 @@ export class GraduateFormComponent implements OnInit {
       awards: ['', Validators.required],
       motto: ['', Validators.required],
       package: ['', Validators.required],
-      shootDate: [new Date(), Validators.required],
-      timePeriod: ['', Validators.required],
-      shootTime: ['', Validators.required],
-      receiptDetails: ['', Validators.required]
+      shoot_date: [new Date(2020, 7), Validators.required],
+      time_period: ['', Validators.required],
+      shoot_time: ['', Validators.required],
+      receipt_details: ['', Validators.required]
     });
 
 
     this.populateTime();
+    // this.gs.graduatesValue.subscribe(graduates => {
+    //   console.log(graduates);
+    // })
 
   }
 
@@ -61,12 +69,12 @@ export class GraduateFormComponent implements OnInit {
   }
 
   get timePeriod(): AbstractControl {
-    return this.graduateForm.get('timePeriod');
+    return this.graduateForm.get('time_period');
   }
 
 
   filterTimeSlotsOfType(period: string){
-    return this.availableTimeSlots.filter(x => x.period == period.toLowerCase());
+    return this.availableTimeSlots.filter(x => x.period == period);
   }
 
 
@@ -96,12 +104,18 @@ export class GraduateFormComponent implements OnInit {
 
     }
 
-    console.log(this.availableTimeSlots);
+    // console.log(this.availableTimeSlots);
 
   }
 
 
   submit() {
-    console.log(this.graduateForm.value);
+    // console.log(this.graduateForm.value as Graduate);
+
+    const graduate: Graduate = this.graduateForm.value;
+    graduate.birthday = this.df.formatDate(this.graduateForm.value.birthday);
+    graduate.shoot_date = this.df.formatDate(this.graduateForm.value.shoot_date);
+
+    this.gs.addGraduate(graduate);
   }
 }

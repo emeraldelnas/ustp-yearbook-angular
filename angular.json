@@ -18,10 +18,17 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
+              "lodash",
               "firebase",
+              "@angular/common/locales/fr",
+              "lodash/dropRight",
               "@firebase/app",
               "firebase/app",
-              "@firebase/auth"
+              "@firebase/database",
+              "@firebase/firestore",
+              "@firebase/component",
+              "@firebase/auth",
+              "@firebase/util"
             ],
             "outputPath": "dist/ustp-yrbk-app",
             "index": "src/index.html",

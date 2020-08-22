@@ -16,11 +16,13 @@ import { NbFirebasePasswordStrategy } from '@nebular/firebase-auth';
 import { AuthGuard } from './auth/guard/auth-guard.service';
 
 import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { environment } from '../environments/environment';
+
 import { AdminModule } from './admin/admin.module';
 
 import { GraduateFormComponent } from './graduate-form/graduate-form.component';
-
+import { GraduateService } from './services/graduate.service';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { GraduateFormComponent } from './graduate-form/graduate-form.component';
     NbThemeModule.forRoot({ name: 'default' }),
     NbEvaIconsModule,
     AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
     NbAuthModule.forRoot({
       strategies: [
         NbFirebasePasswordStrategy.setup({
@@ -81,7 +84,7 @@ import { GraduateFormComponent } from './graduate-form/graduate-form.component';
     NbDatepickerModule.forRoot(),
     NbRadioModule,
   ],
-  providers: [NbFirebasePasswordStrategy, AuthGuard],
+  providers: [NbFirebasePasswordStrategy, AuthGuard, GraduateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
