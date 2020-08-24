@@ -22,7 +22,7 @@ input[type=number]::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.form-control-group {
+.form-control {
   &:not(:last-child) {
     margin-bottom: 1.5rem;
   }
@@ -34,5 +34,11 @@ input[type=number]::-webkit-outer-spin-button {
   label {
     color: #69758d !important;
     margin-bottom: 0.5rem;
+  }
+
+  .error-message {
+    color: #ff3d71;
+    font-size: 0.75rem;
+    margin-top: 0.3rem;
   }
 }

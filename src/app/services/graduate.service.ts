@@ -13,10 +13,15 @@ export class GraduateService {
 
   graduatesCollection: AngularFirestoreCollection<Graduate>;
   graduatesValue: Observable<Graduate[]>;
+  takenTimeSlots: Observable<string[]>;
 
   graduatesSnapshot: any;
 
   constructor(public afs: AngularFirestore) {
+    this.initGraduateService();
+  }
+
+  initGraduateService(): void {
     this.graduatesCollection = this.afs.collection('graduates');
 
     this.graduatesValue = this.graduatesCollection.valueChanges();
@@ -29,11 +34,19 @@ export class GraduateService {
         return {id, ...data}
       }))
     );
-
-
-
   }
 
+  queryTimeSlots(date: string) {
+    return this.afs.collection('graduates', ref => {
+      return ref.where('shoot_date', '==', date);
+    }).valueChanges().pipe(
+      map((graduates: Graduate[]) => {
+        return graduates.map((graduate: Graduate) => {
+          return graduate.shoot_time;
+        })
+      })
+    )
+  }
 
   addGraduate(graduate: Graduate) {
     this.graduatesCollection.add(graduate);

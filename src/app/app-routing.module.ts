@@ -16,7 +16,7 @@ const routes: Routes = [
     loadChildren: './auth/auth.module#NgxAuthModule'
   },
   {  path: '', component: GraduateFormComponent  },
-  {  path: '**', redirectTo: '/'  }
+  // {  path: '**', redirectTo: '/'  }
 
 ];
 
