@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 
 import { Graduate } from '../models/graduate';
 
@@ -18,7 +18,7 @@ export class GraduateService {
   graduatesSnapshot: any;
 
   constructor(public afs: AngularFirestore) {
-    this.initGraduateService();
+    // this.initGraduateService();
   }
 
   initGraduateService(): void {
@@ -31,12 +31,12 @@ export class GraduateService {
         const data = a.payload.doc.data() as Graduate;
         const id = a.payload.doc.id;
 
-        return {id, ...data}
+        return {id, ...data};
       }))
     );
   }
 
-  queryTimeSlots(date: string) {
+  getTimeSlots(date: string) {
     return this.afs.collection('graduates', ref => {
       return ref.where('shoot_date', '==', date);
     }).valueChanges().pipe(
@@ -48,7 +48,30 @@ export class GraduateService {
     )
   }
 
+  getGraduatesByApproved(status: boolean) {
+    return this.afs.collection('graduates', ref => {
+      return ref.where('approved', '==', status);
+    }).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Graduate;
+        const id = a.payload.doc.id;
+
+        return {id, ...data};
+      }))
+    )
+  }
+
+  getGraduate(docId: string) {
+    return this.afs.doc('graduates/' + docId).valueChanges();
+  }
+
   addGraduate(graduate: Graduate) {
-    this.graduatesCollection.add(graduate);
+    return this.afs.collection('graduates').add(graduate);
+  }
+
+  approveGraduate(docId: string, status: boolean) {
+    return this.afs.doc('graduates/' + docId).update({
+      "approved": status
+    });
   }
 }

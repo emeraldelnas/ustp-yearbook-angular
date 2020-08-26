@@ -1,0 +1,63 @@
+<div>
+  <nb-card *ngIf="graduate$ | async as graduate" size="medium" class="card-table">
+    <nb-card-header>
+      <p class="idno-label">ID No.</p>
+      {{graduate.id_number}}
+    </nb-card-header>
+    <nb-card-body>
+      <div class="detail">
+        <p>Name</p>
+        <p>{{graduate.first_name}} {{graduate.mid_name}} {{graduate.last_name}}</p>
+      </div>
+      <div class="detail">
+        <p>Package</p>
+        <p>{{graduate.package}}</p>
+      </div>
+      <div class="detail">
+        <p>Payment receipt</p>
+        <p>{{graduate.receipt_details}}</p>
+      </div>
+      <div class="detail">
+        <p>Shoot Schedule</p>
+        <p>{{graduate.shoot_date | date:'mediumDate'}} {{graduate.shoot_time}} {{graduate.time_period}}</p>
+      </div>
+      <div class="detail">
+        <p>Mobile</p>
+        <p>{{graduate.mobile}}</p>
+      </div>
+      <div class="detail">
+        <p>Email</p>
+        <p>{{graduate.email}}</p>
+      </div>
+      <div class="detail">
+        <p>Birthday</p>
+        <p>{{graduate.birthday | date:'mediumDate'}}</p>
+      </div>
+      <div class="detail">
+        <p>Course</p>
+        <p>{{graduate.course}}</p>
+      </div>
+      <div class="detail">
+        <p>College</p>
+        <p>{{graduate.college}}</p>
+      </div>
+      <div class="detail">
+        <p>Affiliations</p>
+        <p>{{graduate.affiliations}}</p>
+      </div>
+      <div class="detail">
+        <p>Awards</p>
+        <p>{{graduate.awards}}</p>
+      </div>
+      <div class="detail">
+        <p>Motto</p>
+        <p>{{graduate.motto}}</p>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button *ngIf="!graduate.approved" (click)="approve(true)" nbButton size="small" status="success">Approve</button>
+      <button *ngIf="graduate.approved" (click)="approve(false)" nbButton size="small" status="danger">Disapprove</button>
+    </nb-card-footer>
+  </nb-card>
+
+</div>

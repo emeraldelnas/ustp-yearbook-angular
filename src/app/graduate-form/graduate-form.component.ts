@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
-import { NbDateService } from '@nebular/theme';
+import { NbDateService, NbDialogService } from '@nebular/theme';
 
 import { DateFormatService } from '../services/date-format.service';
 import { GraduateService } from '../services/graduate.service';
 import { Graduate } from '../models/graduate';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { debounceTime, take, map, switchMap } from 'rxjs/operators';
+import { timer, of } from 'rxjs';
 
 @Component({
   selector: 'app-graduate-form',
@@ -14,6 +17,7 @@ import { Graduate } from '../models/graduate';
 export class GraduateFormComponent implements OnInit {
 
   submitted = false;
+  success = false;
 
   minDate: Date;
   maxDate: Date;
@@ -33,18 +37,46 @@ export class GraduateFormComponent implements OnInit {
     private fb: FormBuilder,
     protected dateService: NbDateService<Date>,
     private df: DateFormatService,
-    private gs: GraduateService
+    private gs: GraduateService,
+    private afs: AngularFirestore,
+    private dialogService: NbDialogService,
     ) {
 
     this.minDate = new Date('2020, 7');
     this.maxDate = new Date('2020, 9');
   }
 
+  checkDetails(dialog: TemplateRef<any>) {
+    this.dialogService.open(dialog);
+  }
+
   ngOnInit(): void {
+
+    this.initGraduateForm();
+
+    this.populateTime();
+
+    this.onDateChange(new Date(2020, 7));
+
+    // this.fa.signInAnonymously()
+    //   .then(() => {
+    //     this.onDateChange(new Date(2020, 7));
+    //   })
+    //   .catch(errors => {
+    //     console.error(errors);
+    //   });
+  }
+
+
+  initGraduateForm(): void {
     this.graduateForm = this.fb.group({
-      id_number: ['', [
-        Validators.required,
-      ]],
+      id_number: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^\d{10}$/)
+        ],
+        CustomValidator.checkIdNo(this.afs)
+      ],
       first_name: ['', Validators.required],
       mid_name: ['', Validators.required],
       last_name: ['', Validators.required],
@@ -80,25 +112,20 @@ export class GraduateFormComponent implements OnInit {
         Validators.maxLength(500)
       ]]
     });
-
-
-
-    this.populateTime();
-
-    this.onDateChange(new Date(2020, 7));
-
   }
-
 
 
   onDateChange(e) {
     const date = this.df.formatDate(e);
-    this.gs.queryTimeSlots(date).subscribe(timeSlots => {
+    this.gs.getTimeSlots(date).subscribe(timeSlots => {
       this.latestTimeSlots = this.availableTimeSlots
       .filter(timeSlot =>
         !timeSlots.includes(timeSlot.value)
       );
     });
+
+    this.graduateForm.controls['time_period'].reset();
+    this.graduateForm.controls['shoot_time'].reset();
 
   }
 
@@ -136,23 +163,30 @@ export class GraduateFormComponent implements OnInit {
 
     }
 
-    // console.log(this.availableTimeSlots);
-
   }
 
 
-  submit() {
-    // console.log(this.graduateForm.value as Graduate);
+  submit(ref) {
+    this.submitted = true;
 
     const graduate: Graduate = this.graduateForm.value;
     graduate.birthday = this.df.formatDate(this.graduateForm.value.birthday);
     graduate.shoot_date = this.df.formatDate(this.graduateForm.value.shoot_date);
-    graduate.submitted = true;
+    graduate.approved = false;
 
-    this.gs.addGraduate(graduate);
+    this.gs.addGraduate(graduate)
+      .then(value => {
+        ref.close();
+        this.submitted = false;
+        this.initGraduateForm();
+        this.success = true;
+      })
+      .catch(value => {
+        console.error('Something went wrong...');
+      });
 
-    this.submitted = true;
   }
+
 
 
 
@@ -240,5 +274,36 @@ export class GraduateFormComponent implements OnInit {
 
   get receipt_details(): AbstractControl {
     return this.graduateForm.get('receipt_details');
+  }
+}
+
+
+
+export class CustomValidator {
+  static checkIdNo(afs: AngularFirestore) {
+    return (control: AbstractControl) => {
+
+      const idNo = control.value;
+
+      if(idNo.length != 10) {
+        return of(null);
+      }
+
+
+      return timer(1000).pipe(
+        switchMap(() => {
+          if(!control.value) {
+            return of(null);
+          }
+
+          return afs.collection('graduates', ref => ref.where('id_number', '==', idNo))
+          .valueChanges().pipe(
+            debounceTime(500),
+            take(1),
+            map(arr => arr.length ? {idNoTaken: true} : null),
+          )
+        })
+      )
+    }
   }
 }

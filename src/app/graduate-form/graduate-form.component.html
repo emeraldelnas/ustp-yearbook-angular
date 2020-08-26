@@ -1,9 +1,9 @@
 <nb-layout>
   <nb-layout-column>
 
-    <nb-card class="form-card">
+    <nb-card class="form-card" *ngIf="!success" [nbSpinner]="id_number.pending" nbSpinnerStatus="success">
       <nb-card-body>
-        <form [formGroup]="graduateForm" class="step-container">
+        <form [formGroup]="graduateForm" (ngSubmit)="checkDetails(dialog)" class="step-container">
           <p class="form-group-title">Personal Info</p>
           <div class="form-groups">
             <div class="form-control">
@@ -11,14 +11,24 @@
               <input nbInput fullWidth
                 formControlName="id_number"
                 name="id_number"
-                type="number"
+                type="tel"
                 id="id_number"
                 placeholder="2014100434"
                 [status]="id_number.dirty ? (id_number.invalid  ? 'danger' : 'success') : 'basic'">
+              <p *ngIf="id_number.pending">
+                Checking ID No...
+              </p>
+              <ng-container *ngIf="id_number.invalid && id_number.touched">
+                <p class="error-message" *ngIf="id_number.errors?.pattern">
+                  ID number should have 10-digits
+                </p>
+              </ng-container>
             </div>
           </div>
 
-
+          <nb-alert status="danger" *ngIf="id_number.invalid && id_number.errors?.idNoTaken">
+            The ID number provided has already been used.
+          </nb-alert>
 
           <div *ngIf="id_number.valid">
             <div class="form-groups">
@@ -250,15 +260,15 @@
               <div class="form-control">
                 <label class="label" for="course">Package:</label>
                 <nb-radio-group formControlName="package" class="package-radio-group" name="package" [status]="package.dirty ? (package.invalid  ? 'danger' : 'success') : 'basic'">
-                  <nb-radio value="1">All in One</nb-radio>
-                  <nb-radio value="2">Photoshoot Only</nb-radio>
+                  <nb-radio value="All in One">All in One</nb-radio>
+                  <nb-radio value="Photoshoot Only">Photoshoot Only</nb-radio>
                 </nb-radio-group>
                 <ng-container *ngIf="package.invalid && submitted">
                   <p class="error-message" *ngIf="package.errors?.required">
                     Package is required!
                   </p>
                 </ng-container>
-                <div class="package-info" *ngIf="package.value === '1'">
+                <div class="package-info" *ngIf="package.value === 'All in One'">
                   <div class="header">
                     <p>"All in One" details:</p>
                     <p>P2,090</p>
@@ -281,7 +291,7 @@
                     <p class="total"><span class="price">P2,090</span> - Total</p>
                   </div>
                 </div>
-                <div class="package-info" *ngIf="package.value === '2'">
+                <div class="package-info" *ngIf="package.value === 'Photoshoot Only'">
                   <div class="header">
                     <p>"Photoshoot Only" details:</p>
                     <p>P490</p>
@@ -336,14 +346,80 @@
 
 
             <div class="submit-container">
-              <button nbButton status="primary" [disabled]="graduateForm.invalid" (click)="submit()">Submit</button>
+              <button nbButton status="primary" [disabled]="graduateForm.invalid">Confirm</button>
             </div>
           </div>
         </form>
       </nb-card-body>
     </nb-card>
 
-  </nb-layout-column>
+    <nb-alert class="success-alert" status="success" *ngIf="success">
+      Your photoshoot booking was successful!
+    </nb-alert>
 
-  <nb-layout-column></nb-layout-column>
+  </nb-layout-column>
 </nb-layout>
+
+<ng-template #dialog let-data let-ref="dialogRef">
+  <nb-card accent="primary" class="confirm-dialog">
+    <nb-card-header>Confirm details:</nb-card-header>
+    <nb-card-body>
+      <div class="detail">
+        <p>ID No.</p>
+        <p>{{id_number.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Name</p>
+        <p>{{first_name.value}} {{mid_name.value}} {{last_name.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Email</p>
+        <p>{{email.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Mobile</p>
+        <p>{{mobile.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Birthday</p>
+        <p>{{birthday.value | date:'mediumDate'}}</p>
+      </div>
+      <div class="detail">
+        <p>Course</p>
+        <p>{{course.value}}</p>
+      </div>
+      <div class="detail">
+        <p>College</p>
+        <p>{{college.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Affiliations</p>
+        <p>{{affiliations.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Awards</p>
+        <p>{{awards.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Motto</p>
+        <p>{{motto.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Shoot schedule</p>
+        <p>{{shoot_date.value | date:'mediumDate'}} {{shoot_time.value}} {{time_period.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Package</p>
+        <p>{{package.value}}</p>
+      </div>
+      <div class="detail">
+        <p>Payment receipt</p>
+        <p>{{receipt_details.value}}</p>
+      </div>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="success" (click)="submit(ref)">Submit</button>
+      <button nbButton status="basic" (click)="ref.close()">Cancel</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>

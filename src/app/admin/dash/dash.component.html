@@ -1,10 +1,14 @@
 <nb-layout>
   <nb-layout-header subheader>
     <button nbButton ghost (click)="toggle()">
-      <nb-icon icon="menu-outline"></nb-icon></button>
-      <p class="subtitle" style="margin-left: 1rem;">
-        Dashboard
-      </p>
+      <nb-icon icon="menu-outline"></nb-icon>
+    </button>
+    <p class="subtitle" style="margin-left: 1rem;">
+      Administrator
+    </p>
+    <button nbButton ghost class="logout-btn" (click)="logout()">
+      <nb-icon icon="log-out-outline"></nb-icon> Logout
+    </button>
   </nb-layout-header>
 
   <nb-sidebar [fixed]="isSidebarFixed" [collapsedBreakpoints]="collapsedBreakpoints" compactedBreakpoints="[]" [responsive]="responsive">
@@ -12,6 +16,6 @@
   </nb-sidebar>
 
   <nb-layout-column>
-    Page Content <button nbButton>Hello World</button>
+    <router-outlet></router-outlet>
   </nb-layout-column>
 </nb-layout>

@@ -16,7 +16,7 @@ export interface Graduate {
   time_period?: string,
   shoot_time?: string,
   receipt_details?: string
-  submitted?: boolean
+  approved?: boolean
 }
 
 

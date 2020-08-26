@@ -1,6 +1,10 @@
+@import '../styles/graduate-detail';
+
 .form-card {
   margin: auto;
   height: auto;
+  width: 100%;
+  max-width: 700px;
 
   .form-group-title {
     font-size: 1rem;
@@ -10,8 +14,12 @@
 
   .form-groups {
     &:not(:last-child) {
-      margin: 1.5rem auto 3rem 1rem;
+      margin: 1.5rem 0 3rem;
     }
+  }
+
+  .form-control input {
+    max-width: 420px;
   }
 
   .submit-container {
@@ -121,8 +129,31 @@
 }
 
 
-@media (min-width: 991px) {
-  // .form-card {
-  //   max-width: 60%;
-  // }
+.confirm-dialog {
+  height: 75vh !important;
+  width: 90vw;
+  margin: auto;
+
+  nb-card-footer {
+    text-align: right;
+
+    button:first-child {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+
+
+.success-alert {
+  margin: auto;
+}
+
+
+
+
+@media (min-width: 768px) {
+  .confirm-dialog, .success-alert {
+    max-width: 500px;
+  }
 }

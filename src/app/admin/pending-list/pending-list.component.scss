@@ -1,0 +1,8 @@
+@import '../../styles/card-table';
+@import '../../styles/table';
+
+.list-container {
+  display: grid;
+  grid-template-columns: minmax(320px, 700px) minmax(300px, 380px);
+  column-gap: 2rem;
+}

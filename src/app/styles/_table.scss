@@ -1,0 +1,9 @@
+.custom-table {
+  width: 100%;
+
+  tr {
+    &.active {
+      background: rgba(51, 102, 255, 0.12);
+    }
+  }
+}

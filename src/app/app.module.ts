@@ -4,9 +4,9 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule, NbSpinnerModule, NbAlertModule, NbDialogModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { NgxAuthModule } from './auth/auth.module';
@@ -38,7 +38,7 @@ import { GraduateService } from './services/graduate.service';
     NbThemeModule.forRoot({ name: 'default' }),
     NbEvaIconsModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule,
+    AngularFirestoreModule.enablePersistence(),
     NbAuthModule.forRoot({
       strategies: [
         NbFirebasePasswordStrategy.setup({
@@ -83,6 +83,9 @@ import { GraduateService } from './services/graduate.service';
     NbStepperModule,
     NbDatepickerModule.forRoot(),
     NbRadioModule,
+    NbSpinnerModule,
+    NbAlertModule,
+    NbDialogModule.forRoot(),
   ],
   providers: [NbFirebasePasswordStrategy, AuthGuard, GraduateService],
   bootstrap: [AppComponent]

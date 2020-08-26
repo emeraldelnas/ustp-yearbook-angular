@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+
 import { NbMenuItem } from '@nebular/theme';
 import { NbSidebarService } from '@nebular/theme';
-import { NbAuthService, NbAuthJWTToken } from '@nebular/auth';
+import { NbAuthResult } from '@nebular/auth';
+import { NbFirebasePasswordStrategy } from '@nebular/firebase-auth';
 
 @Component({
   selector: 'app-dash',
@@ -14,25 +17,41 @@ export class DashComponent implements OnInit {
   collapsedBreakpoints = ['xs', 'is', 'sm', 'md'];
   items: NbMenuItem[] = [
     {
-      title: 'Student List',
-      icon: 'people-outline',
-      link: ''
+      title: 'Dashboard',
+      icon: 'grid-outline',
+      link: '/admin/dash'
     },
     {
-      title: 'Logout',
-      icon: 'unlock-outline',
-      link: ''
+      title: 'Pending List',
+      icon: 'square-outline',
+      link: '/admin/dash/pending'
+    },
+    {
+      title: 'Approved List',
+      icon: 'checkmark-square-outline',
+      link: '/admin/dash/approved'
     },
   ];
 
-  constructor(private sidebarService: NbSidebarService, private authService: NbAuthService) { }
+  constructor(
+    protected router: Router,
+    private sidebarService: NbSidebarService,
+    private firebase: NbFirebasePasswordStrategy,
+    ) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
 
+  toggle(): void {
+    this.sidebarService.toggle(false, 'left');
   }
 
-  toggle() {
-    this.sidebarService.toggle(false, 'left');
+  logout(): void {
+    this.firebase.logout().subscribe((result: NbAuthResult) => {
+      // console.log(result.isSuccess());
+      if(result.isSuccess) {
+        this.router.navigateByUrl(result.getRedirect());
+      }
+    })
   }
 
 }
