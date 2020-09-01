@@ -53,14 +53,15 @@ export class GraduateDetailComponent implements OnInit {
     graduate.balance = this.getPaymentBalance(this.initial_payment.value, graduate.package);
 
     this.gs.approveGraduate(this.currentDocId, status, graduate).then(success => {
-      this.sendEmail(graduate);
+      this.sendApprovedEmail(graduate);
       this.router.navigate(['../'], {relativeTo: this.route});
     });
 
   }
 
-  disapprove() {
-    this.gs.approveGraduate(this.currentDocId, false).then(success => {
+  disapprove(email: string) {
+    this.gs.disapproveGraduate(this.currentDocId).then(success => {
+      this.sendDisapprovedEmail(email);
       this.router.navigate(['../'], {relativeTo: this.route});
     });
   }
@@ -77,7 +78,7 @@ export class GraduateDetailComponent implements OnInit {
 
 
 
-  sendEmail(graduate: Graduate): any {
+  sendApprovedEmail(graduate: Graduate): any {
 
 
 
@@ -87,7 +88,7 @@ export class GraduateDetailComponent implements OnInit {
       Password : 'CC3CAB79238566800AD98CE1A53830EA756D',
       To : graduate.email,
       From :'ustpyb2020@gmail.com',
-      Subject : 'USTP Yearbook 2020',
+      Subject : 'Approved',
       Body : `
       <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
       <html xmlns="http://www.w3.org/1999/xhtml">
@@ -259,6 +260,180 @@ export class GraduateDetailComponent implements OnInit {
       });
   }
 
+
+  sendDisapprovedEmail(email: string): any {
+    return Email.send({
+      Host : 'smtp.elasticemail.com',
+      Username : 'narcisskylake@gmail.com',
+      Password : 'CC3CAB79238566800AD98CE1A53830EA756D',
+      To : email,
+      From :'ustpyb2020@gmail.com',
+      Subject : 'Declined',
+      Body : `
+      <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+      <html xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+          <title>
+          </title>
+          <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+          <meta name="viewport" content="width=device-width">
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+          <style type="text/css">body, html {
+            margin: 0px;
+            padding: 0px;
+            -webkit-font-smoothing: antialiased;
+            text-size-adjust: none;
+            width: 100% !important;
+          }
+            table td, table {
+            }
+            #outlook a {
+              padding: 0px;
+            }
+            .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {
+              line-height: 100%;
+            }
+            .ExternalClass {
+              width: 100%;
+            }
+            @media only screen and (max-width: 480px) {
+              table, table tr td, table td {
+                width: 100% ;
+              }
+              table tr td table.edsocialfollowcontainer  {
+                width: auto;
+              }
+              img {
+                width: inherit;
+              }
+              .layer_2 {
+                max-width: 100% !important;
+              }
+              .edsocialfollowcontainer table {
+                max-width: 25% !important;
+              }
+              .edsocialfollowcontainer table td {
+                padding: 10px !important;
+              }
+              .edsocialfollowcontainer table {
+                max-width: 25% !important;
+              }
+              .edsocialfollowcontainer table td {
+                padding: 10px !important;
+              }
+            }
+          </style>
+          <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i &subset=cyrillic,latin-ext" data-name="open_sans" rel="stylesheet" type="text/css">
+          <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.8.0/spectrum.min.css">
+        </head>
+        <body style="padding:0; margin: 0;background: #e4e6ec">
+          <table style="height: 100%; width: 100%; background-color: #e4e6ec;" align="center">
+            <tbody>
+              <tr>
+                <td valign="top" id="dbody" data-version="2.31" style="width: 100%; height: 100%; padding-top: 50px; padding-bottom: 50px; background-color: #e4e6ec;">
+                  <!--[if (gte mso 9)|(IE)]><table align="center" style="max-width:600px" width="600" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                  <table class="layer_1" align="center" border="0" cellpadding="0" cellspacing="0" style="max-width: 600px; box-sizing: border-box; width: 100%; margin: 0px auto;">
+                    <tbody>
+                      <tr>
+                        <td class="drow" valign="top" align="center" style="background-color: #ffffff; box-sizing: border-box; font-size: 0px; text-align: center;">
+                          <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                          <div class="layer_2" style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                            <table border="0" cellspacing="0" class="edcontent" style="border-collapse: collapse;width:100%">
+                              <tbody>
+                                <tr>
+                                  <td valign="top" class="edtext" style="padding: 40px 20px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;">
+                                    <p class="style1 text-center" style="text-align: center; margin: 0px; padding: 0px; color: #000000; font-size: 32px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                      <strong>
+                                      </strong>
+                                      <span style="display: block; font-size: 16px;">THE 2020 EDITION</span>
+                                      <br>
+                                      <strong>
+                                        <span style="color: #0c1e70;">USTP YEARBOOK</span>
+                                      </strong>
+                                      <span style="display: block; font-size: 16px;">PUBLICATION</span>
+                                    </p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="drow" valign="top" align="center" style="background-color: #f4f4f3; box-sizing: border-box; font-size: 0px; text-align: center;">
+                          <!--[if (gte mso 9)|(IE)]><table width="100%" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td valign="top"><![endif]-->
+                          <div class="layer_2" style="max-width: 596px; display: inline-block; vertical-align: top; width: 100%;">
+                            <table border="0" cellspacing="0" class="edcontent" style="border-collapse: collapse;width:100%">
+                              <tbody>
+                                <tr>
+                                  <td valign="top" class="edtext" style="padding: 48px; text-align: left; color: #5f5f5f; font-size: 12px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif; word-break: break-word; direction: ltr; box-sizing: border-box;">
+                                    <p style="margin: 0px; padding: 0px;">
+                                    </p>
+                                    <p class="style2" style="margin: 0px; padding: 0px; color: #000000; font-size: 22px; font-family: &quot;Open Sans&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;">
+                                      <span style="font-size: 18px;">
+                                        <strong>Sorry,&nbsp;your reservation has been disapproved...
+                                        </strong></span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <br>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">The details you entered in the payment section doesn’t match our records.</span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">
+                                        <br></span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">Please check your details before submitting. You may try to book again; we highly encourage to check details before submitting.</span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">
+                                        <br></span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">Should you encounter the same problem, you may contact us at 09******** for immediate response.
+                                        <br></span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <br>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">Thank you and God bless!</span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">&nbsp;</span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">Regards,</span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <span style="font-size: 14px; color: #3f3f3f;">Yearbook Editorial Publication Board 2020</span>
+                                    </p>
+                                    <p style="margin: 0px; padding: 0px;">
+                                      <br>
+                                    </p>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                          <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <!--[if (gte mso 9)|(IE)]></td></tr></table><![endif]-->
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </body>
+      </html>
+      `
+    });
+  }
 
 
 

@@ -62,9 +62,12 @@
             <input nbInput type="number" formControlName="initial_payment" name="initial_payment" id="initial_payment" placeholder="0000">
           </div>
         </div>
-        <button [disabled]="confirmForm.invalid" nbButton size="small" status="success">Approve</button>
+        <div style="display: flex;">
+          <button [disabled]="confirmForm.invalid" nbButton size="small" status="success">Approve</button>
+          <button (click)="disapprove(graduate.email)" nbButton size="small" status="danger" style="margin-left: auto; margin-right: 0;">Disapprove</button>
+        </div>
       </form>
-      <button *ngIf="graduate.approved" (click)="disapprove()" nbButton size="small" status="danger">Disapprove</button>
+      <button *ngIf="graduate.approved" (click)="disapprove(graduate.email)" nbButton size="small" status="danger">Disapprove</button>
     </nb-card-footer>
   </nb-card>
 

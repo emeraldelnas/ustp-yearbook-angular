@@ -23,6 +23,7 @@ import { AdminModule } from './admin/admin.module';
 
 import { GraduateFormComponent } from './graduate-form/graduate-form.component';
 import { GraduateService } from './services/graduate.service';
+import { SettingsService } from './services/settings.service';
 
 @NgModule({
   declarations: [
@@ -89,7 +90,7 @@ import { GraduateService } from './services/graduate.service';
     NbAutocompleteModule,
     NbCheckboxModule,
   ],
-  providers: [NbFirebasePasswordStrategy, AuthGuard, GraduateService],
+  providers: [NbFirebasePasswordStrategy, AuthGuard, SettingsService, GraduateService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

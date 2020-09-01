@@ -87,4 +87,10 @@ export class GraduateService {
   }
 
 
+  disapproveGraduate(docId: string) {
+
+    return this.afs.doc('graduates/' + docId).delete();
+  }
+
+
 }

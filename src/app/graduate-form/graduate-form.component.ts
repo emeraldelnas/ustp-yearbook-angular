@@ -3,11 +3,14 @@ import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/fo
 import { NbDateService, NbDialogService } from '@nebular/theme';
 
 import { DateFormatService } from '../services/date-format.service';
-import { GraduateService } from '../services/graduate.service';
+
 
 import { AngularFirestore } from '@angular/fire/firestore';
 import { debounceTime, take, map, switchMap, startWith } from 'rxjs/operators';
 import { Observable, timer, of } from 'rxjs';
+
+import { SettingsService } from '../services/settings.service';
+import { GraduateService } from '../services/graduate.service';
 
 import { Graduate } from '../models/graduate';
 import { CourseGroup } from '../models/coursegroup';
@@ -46,6 +49,7 @@ export class GraduateFormComponent implements OnInit {
     private fb: FormBuilder,
     protected dateService: NbDateService<Date>,
     private df: DateFormatService,
+    private settings: SettingsService,
     private gs: GraduateService,
     private afs: AngularFirestore,
     private dialogService: NbDialogService,
@@ -63,6 +67,8 @@ export class GraduateFormComponent implements OnInit {
 
     this.initGraduateForm();
 
+    this.getShootDateFromDB();
+
     this.populateTime();
 
     this.onDateChange(new Date(2020, 7));
@@ -75,7 +81,70 @@ export class GraduateFormComponent implements OnInit {
     //     console.error(errors);
     //   });
 
+    this.initAutocomplete();
 
+
+  }
+
+
+  initGraduateForm(): void {
+    this.graduateForm = this.fb.group({
+      id_number: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^\d{10}$/)
+        ],
+        CustomValidator.checkIdNo(this.afs)
+      ],
+      first_name: ['', Validators.required],
+      mid_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      email: ['', [
+        Validators.required,
+        Validators.email
+      ]],
+      mobile: ['', [
+        Validators.required,
+        Validators.pattern(/^[\s\S]{10}$/),
+      ]],
+      birthday: [new Date('1992'), Validators.required],
+      course: ['', Validators.required],
+      college: ['', Validators.required],
+      affiliations: ['', [
+        Validators.required,
+        Validators.maxLength(400)
+      ]],
+      awards: ['', [
+        Validators.required,
+        Validators.maxLength(400)
+      ]],
+      motto: ['', [
+        Validators.required,
+        Validators.maxLength(400)
+      ]],
+      package: ['', Validators.required],
+      shoot_date: [, Validators.required],
+      time_period: ['', Validators.required],
+      shoot_time: ['', Validators.required],
+      receipt_details: ['', [
+        Validators.required,
+        Validators.maxLength(500)
+      ]],
+      agreed_to_rules: [false, Validators.requiredTrue],
+    });
+  }
+
+  getShootDateFromDB(): void {
+    this.settings.getOpenedDates().subscribe(dates => {
+      if(dates) {
+        this.minDate = new Date(dates.from);
+        this.maxDate = new Date(dates.to);
+        this.graduateForm.get('shoot_date').setValue(this.minDate);
+      }
+    });
+  }
+
+  initAutocomplete(): void {
     this.colleges = [
       'College of Technology',
       'College of Science and Mathematics',
@@ -177,54 +246,6 @@ export class GraduateFormComponent implements OnInit {
         startWith(''),
         map(filterString => this.filter(filterString)),
       );
-  }
-
-
-  initGraduateForm(): void {
-    this.graduateForm = this.fb.group({
-      id_number: ['',
-        [
-          Validators.required,
-          Validators.pattern(/^\d{10}$/)
-        ],
-        CustomValidator.checkIdNo(this.afs)
-      ],
-      first_name: ['', Validators.required],
-      mid_name: ['', Validators.required],
-      last_name: ['', Validators.required],
-      email: ['', [
-        Validators.required,
-        Validators.email
-      ]],
-      mobile: ['', [
-        Validators.required,
-        Validators.pattern(/^[\s\S]{10}$/),
-      ]],
-      birthday: [new Date('1992'), Validators.required],
-      course: ['', Validators.required],
-      college: ['', Validators.required],
-      affiliations: ['', [
-        Validators.required,
-        Validators.maxLength(400)
-      ]],
-      awards: ['', [
-        Validators.required,
-        Validators.maxLength(400)
-      ]],
-      motto: ['', [
-        Validators.required,
-        Validators.maxLength(400)
-      ]],
-      package: ['', Validators.required],
-      shoot_date: [this.minDate, Validators.required],
-      time_period: ['', Validators.required],
-      shoot_time: ['', Validators.required],
-      receipt_details: ['', [
-        Validators.required,
-        Validators.maxLength(500)
-      ]],
-      agreed_to_rules: [false, Validators.requiredTrue],
-    });
   }
 
 
