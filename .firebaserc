@@ -3,9 +3,20 @@
     "ustp-yearbook-1d789": {
       "hosting": {
         "ustp-yrbk-app": [
-          "ustp-yearbook-1d789"
+          "ustpyb"
+        ]
+      }
+    },
+    "ustpyb": {
+      "hosting": {
+        "ustp-yrbk-app": [
+          "ustpyb"
         ]
       }
     }
+  },
+  "projects": {
+    "default": "ustpyb",
+    "ustpyrbk": "ustpyb"
   }
 }

@@ -69,9 +69,22 @@ export class GraduateService {
     return this.afs.collection('graduates').add(graduate);
   }
 
-  approveGraduate(docId: string, status: boolean) {
-    return this.afs.doc('graduates/' + docId).update({
-      "approved": status
-    });
+  approveGraduate(docId: string, status: boolean, data?: Graduate) {
+
+    let updatedFields: any = {
+      "approved": false
+    }
+
+    if(status) {
+      updatedFields = {
+        "initial_payment": data.initial_payment,
+        "balance": data.balance,
+        "approved": true
+      }
+    }
+
+    return this.afs.doc('graduates/' + docId).update(updatedFields);
   }
+
+
 }

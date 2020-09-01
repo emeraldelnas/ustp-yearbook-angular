@@ -1,10 +1,26 @@
 <nb-layout>
   <nb-layout-column>
-
+    <div class="header-section">
+      <img class="logo" src="../../assets/logo.png" alt="USTP Yearbook Publication">
+      <div>
+        <div class="header-title">
+          <p>The 2020 Edition</p>
+          <p>USTP Yearbook</p>
+          <p>Publication</p>
+        </div>
+      </div>
+    </div>
     <nb-card class="form-card" *ngIf="!success" [nbSpinner]="id_number.pending" nbSpinnerStatus="success">
       <nb-card-body>
+
+        <div style="margin-bottom: 3rem;">
+          <p class="subtitle">Welcome to USTP CDO Yearbook Publication 2020!</p>
+          <p>Please fill in the information needed to complete your registration for Yearbook 2020. All information will be kept strictly confidential and will be used only for yearbook purposes.</p>
+          <p>No refund will be made once you complete the registration, except for purposes where the YBEP 2020 expressly provides.</p>
+          <p>Please review all details before submitting to avoid any errors. Once you submit, you certify that all information is correct. The USTP YBEP 2020 assumes no responsibility or liability for any errors based on the information you have given.</p>
+        </div>
+
         <form [formGroup]="graduateForm" (ngSubmit)="checkDetails(dialog)" class="step-container">
-          <p class="form-group-title">Personal Info</p>
           <div class="form-groups">
             <div class="form-control">
               <label class="label" for="id_number">ID No:</label>
@@ -13,7 +29,7 @@
                 name="id_number"
                 type="tel"
                 id="id_number"
-                placeholder="2014100434"
+                placeholder="ex: 2014100434"
                 [status]="id_number.dirty ? (id_number.invalid  ? 'danger' : 'success') : 'basic'">
               <p *ngIf="id_number.pending">
                 Checking ID No...
@@ -31,7 +47,12 @@
           </nb-alert>
 
           <div *ngIf="id_number.valid">
+            <p class="form-group-title">Personal Info</p>
             <div class="form-groups">
+              <div class="note">
+                <p>Please use a proper letter case.</p>
+                <p>ex: Juan Dela Cruz</p>
+              </div>
               <div class="form-control">
                 <label class="label" for="first_name">First name:</label>
                 <input nbInput fullWidth
@@ -39,7 +60,7 @@
                   name="first_name"
                   type="text"
                   id="first_name"
-                  placeholder="Thomas"
+                  placeholder="Juan"
                   [status]="first_name.dirty ? (first_name.invalid  ? 'danger' : 'success') : 'basic'">
                 <ng-container *ngIf="first_name.invalid && first_name.touched">
                   <p class="error-message" *ngIf="first_name.errors?.required">
@@ -54,7 +75,7 @@
                   name="mid_name"
                   type="text"
                   id="mid_name"
-                  placeholder="And"
+                  placeholder="Dela"
                   [status]="mid_name.dirty ? (mid_name.invalid  ? 'danger' : 'success') : 'basic'">
                 <ng-container *ngIf="mid_name.invalid && mid_name.touched">
                   <p class="error-message" *ngIf="mid_name.errors?.required">
@@ -69,7 +90,7 @@
                   name="last_name"
                   type="text"
                   id="last_name"
-                  placeholder="Prends"
+                  placeholder="Cruz"
                   [status]="last_name.dirty ? (last_name.invalid  ? 'danger' : 'success') : 'basic'">
                 <ng-container *ngIf="last_name.invalid && last_name.touched">
                   <p class="error-message" *ngIf="last_name.errors?.required">
@@ -84,7 +105,7 @@
                   name="email"
                   type="email"
                   id="email"
-                  placeholder="thomas@example.com"
+                  placeholder="juandelacruz@example.com"
                   [status]="email.dirty ? (email.invalid  ? 'danger' : 'success') : 'basic'">
                 <ng-container *ngIf="email.invalid && email.touched">
                   <p class="error-message" *ngIf="email.errors?.required">
@@ -102,7 +123,7 @@
                   name="mobile"
                   type="number"
                   id="mobile"
-                  placeholder="09769325418"
+                  placeholder="09xxxxxxxxx"
                   [status]="mobile.dirty ? (mobile.invalid  ? 'danger' : 'success') : 'basic'">
                 <ng-container *ngIf="mobile.invalid && mobile.touched">
                   <p class="error-message" *ngIf="mobile.errors?.required">
@@ -125,6 +146,30 @@
 
 
             <p class="form-group-title">Graduate Info</p>
+            <div class="form-control">
+              <label class="label" for="college">College:</label>
+              <input nbInput fullWidth
+                formControlName="college"
+                name="college"
+                type="text"
+                id="college"
+                placeholder="College of Information Technology"
+                [status]="college.dirty ? (college.invalid  ? 'danger' : 'success') : 'basic'"
+                [nbAutocomplete]="autoColleges"
+                focusInputOnValueChange="false">
+              <nb-autocomplete #autoColleges>
+
+                <nb-option *ngFor="let option of filteredColleges$ | async" [value]="option">
+                  {{ option }}
+                </nb-option>
+
+              </nb-autocomplete>
+              <ng-container *ngIf="college.invalid && college.touched">
+                <p class="error-message" *ngIf="college.errors?.required">
+                  College is required!
+                </p>
+              </ng-container>
+            </div>
             <div class="form-groups">
               <div class="form-control">
                 <label class="label" for="course">Course:</label>
@@ -134,7 +179,18 @@
                   type="text"
                   id="course"
                   placeholder="BS Information Technology"
-                  [status]="course.dirty ? (course.invalid  ? 'danger' : 'success') : 'basic'">
+                  [status]="course.dirty ? (course.invalid  ? 'danger' : 'success') : 'basic'"
+                  [nbAutocomplete]="autoCourses"
+                  focusInputOnValueChange="false">
+                <nb-autocomplete #autoCourses>
+
+                  <nb-option-group *ngFor="let coursegroup of filteredCourseGroup$ | async; trackBy: trackByFn"  [title]="coursegroup.college" >
+                    <nb-option *ngFor="let option of coursegroup.courses" [value]="option">
+                      {{ option }}
+                    </nb-option>
+                  </nb-option-group>
+
+                </nb-autocomplete>
                 <ng-container *ngIf="course.invalid && course.touched">
                   <p class="error-message" *ngIf="course.errors?.required">
                     Course is required!
@@ -142,22 +198,10 @@
                 </ng-container>
               </div>
               <div class="form-control">
-                <label class="label" for="college">College:</label>
-                <input nbInput fullWidth
-                  formControlName="college"
-                  name="college"
-                  type="text"
-                  id="college"
-                  placeholder="College of Information Technology"
-                  [status]="college.dirty ? (college.invalid  ? 'danger' : 'success') : 'basic'">
-                <ng-container *ngIf="college.invalid && college.touched">
-                  <p class="error-message" *ngIf="college.errors?.required">
-                    College is required!
-                  </p>
-                </ng-container>
-              </div>
-              <div class="form-control">
                 <label class="label" for="affiliations">Affiliations:</label>
+                <div class="note">
+                  <p>If none, please put <strong>N/A</strong>.</p>
+                </div>
                 <textarea nbInput fullWidth
                   formControlName="affiliations"
                   name="affiliations"
@@ -173,6 +217,9 @@
               </div>
               <div class="form-control">
                 <label class="label" for="awards">Awards:</label>
+                <div class="note">
+                  <p>If none, please put <strong>N/A</strong>.</p>
+                </div>
                 <textarea nbInput fullWidth
                   formControlName="awards"
                   name="awards"
@@ -188,6 +235,9 @@
               </div>
               <div class="form-control">
                 <label class="label" for="motto">Motto:</label>
+                <div class="note">
+                  <p>If none, please put <strong>N/A</strong>.</p>
+                </div>
                 <textarea nbInput fullWidth
                   formControlName="motto"
                   name="motto"
@@ -207,6 +257,7 @@
 
 
             <p class="form-group-title">Schedule Photoshoot</p>
+            <p>This is the opened schedule for now. <em>We have to fill in the maximum schedule per day before we can open the next day for pictorial schedule.</em> Time slots shown are the only available time slots for the day. Other time are already taken.</p>
             <div class="form-groups">
               <div class="form-control">
                 <label class="label" for="shoot_date">Shoot Date</label>
@@ -255,25 +306,26 @@
 
 
 
-            <p class="form-group-title">Payment Info</p>
+            <p class="form-group-title">Payment</p>
             <div class="form-groups">
               <div class="form-control">
                 <label class="label" for="course">Package:</label>
                 <nb-radio-group formControlName="package" class="package-radio-group" name="package" [status]="package.dirty ? (package.invalid  ? 'danger' : 'success') : 'basic'">
-                  <nb-radio value="All in One">All in One</nb-radio>
-                  <nb-radio value="Photoshoot Only">Photoshoot Only</nb-radio>
+                  <nb-radio value="Package 1">Package 1</nb-radio>
+                  <nb-radio value="Package 2">Package 2</nb-radio>
                 </nb-radio-group>
                 <ng-container *ngIf="package.invalid && submitted">
                   <p class="error-message" *ngIf="package.errors?.required">
                     Package is required!
                   </p>
                 </ng-container>
-                <div class="package-info" *ngIf="package.value === 'All in One'">
+                <div class="package-info" *ngIf="package.value === 'Package 1'">
                   <div class="header">
-                    <p>"All in One" details:</p>
-                    <p>P2,090</p>
+                    <p>"Package 1" details:</p>
+                    <p>P2,200</p>
                   </div>
                   <div class="body">
+                    <small><strong>Inclusions:</strong></small>
                     <p>1x Yearbook (Hard Copy)</p>
                     <p>Photoshoot (Toga & Casual)</p>
                     <p>Photos hard copies:</p>
@@ -285,18 +337,20 @@
                     <p>Single use laundered & disinfected toga</p>
                   </div>
                   <div class="footer">
-                    <p><span class="price">P1,600</span> - Yearbook (Hard Copy)</p>
-                    <p><span class="price">P450</span> - Photoshoot w/ Hard Copies</p>
-                    <p><span class="price">P40</span> - Operating Expense</p>
-                    <p class="total"><span class="price">P2,090</span> - Total</p>
+                    <small><strong>Breakdown:</strong></small>
+                    <p><span class="price">P1,700</span> - Yearbook (Hard Copy)</p>
+                    <p><span class="price">P420</span> - Photoshoot w/ Hard Copies</p>
+                    <p><span class="price">P80</span> - Operating Expense</p>
+                    <p class="total"><span class="price">P2,200</span> - Total</p>
                   </div>
                 </div>
-                <div class="package-info" *ngIf="package.value === 'Photoshoot Only'">
+                <div class="package-info" *ngIf="package.value === 'Package 2'">
                   <div class="header">
-                    <p>"Photoshoot Only" details:</p>
-                    <p>P490</p>
+                    <p>"Package 2" details:</p>
+                    <p>P500</p>
                   </div>
                   <div class="body">
+                    <small><strong>Inclusions:</strong></small>
                     <p class="strike">1x Yearbook (Hard Copy)</p>
                     <p>Photoshoot (Toga & Casual)</p>
                     <p>Photos hard copies:</p>
@@ -308,22 +362,62 @@
                     <p>Single use laundered & disinfected toga</p>
                   </div>
                   <div class="footer">
-                    <p><span class="price">P450</span> - Photoshoot w/ Hard Copies</p>
-                    <p><span class="price">P40</span> - Operating Expense</p>
-                    <p class="total"><span class="price">P490</span> - Total</p>
+                    <small><strong>Breakdown:</strong></small>
+                    <p><span class="price">P420</span> - Photoshoot w/ Hard Copies</p>
+                    <p><span class="price">P80</span> - Operating Expense</p>
+                    <p class="total"><span class="price">P500</span> - Total</p>
                   </div>
                 </div>
               </div>
 
 
+              <div class="payment-portals">
+                <p>Please send payment to:</p>
+
+                <div class="portal">
+                  <p><strong>GCash</strong></p>
+                  <div>
+                    <p class="label">Account Name:</p>
+                    <p>ALISA WYNN LAYAGON</p>
+                  </div>
+                  <div>
+                    <p class="label">Account Number:</p>
+                    <p>09399376838</p>
+                  </div>
+                </div>
+                <div class="portal">
+                  <p><strong>BPI</strong></p>
+                  <div>
+                    <p class="label">Account Name:</p>
+                    <p>DAGNY ROSE UGSOD</p>
+                  </div>
+                  <div>
+                    <p class="label">Account Number:</p>
+                    <p>09336449603</p>
+                  </div>
+                </div>
+              </div>
+
+              <p>Do not click submit once payment has not yet been made. Otherwise, your reservation will be declined. If payment has been made, please provide details such as:</p>
+              <div class="sample-payment">
+                <p>Confirmation Number:</p>
+                <p>Amount Paid:</p>
+                <p>Paid through: (BPI/GCash)</p>
+                <p>Date paid:</p>
+              </div>
+              <p>Once submitted and verified by YB 2020, you will receive your receipt in the email you provided. Please print your receipt and bring it on the date and time of your pictorial schedule.</p>
 
               <div class="form-control">
-                <label class="label" for="receipt_details">Payment receipt details:</label>
+                <label class="label" for="receipt_details">Payment details:</label>
                 <textarea nbInput fullWidth
                   formControlName="receipt_details"
                   name="receipt_details"
                   id="receipt_details"
-                  placeholder=""
+                  placeholder=
+"Confirmation Number:
+Amount paid:
+Paid through: (BPI/GCash)
+Date paid:"
                   rows="7"
                   [status]="receipt_details.dirty ? (receipt_details.invalid  ? 'danger' : 'success') : 'basic'"></textarea>
                 <ng-container *ngIf="receipt_details.invalid && receipt_details.touched">
@@ -332,15 +426,10 @@
                   </p>
                 </ng-container>
               </div>
+              <div class="form-control">
+                <nb-checkbox formControlName="agreed_to_rules">Check here to indicate that you have read and agree to the <a href="http://bit.do/YEPB2020-Rules-and-Regulations" target="_blank">rules and regulations</a> of the YEPB 2020</nb-checkbox>
+              </div>
             </div>
-
-
-
-
-
-
-
-
 
 
 
@@ -353,9 +442,17 @@
       </nb-card-body>
     </nb-card>
 
-    <nb-alert class="success-alert" status="success" *ngIf="success">
-      Your photoshoot booking was successful!
-    </nb-alert>
+    <div class="success-alert" *ngIf="success">
+      <nb-alert status="success">
+        Your photoshoot booking was successful!
+      </nb-alert>
+      <div>
+        <p>You have successfully submitted your YBEP reservation. The YBEP will verify your payment and details. Once verified, an email will be sent immediately to the email address you provided. Please <em>check your email after 2-3 hours if reservation has been submitted from 8am-7pm</em>. If reservation has been submitted beyond the said time, please check your email by the next morning.</p>
+        <p>Kindly print out or bring an electronic copy  of the email sent to you and present it to the staff at the studio during your scheduled pictorial date and time. Other information needed are sent to your email. Please read it thoroughly.</p>
+        <p>Thank you and keep safe!</p>
+      </div>
+    </div>
+
 
   </nb-layout-column>
 </nb-layout>

@@ -1,7 +1,7 @@
 export interface Graduate {
   id_number?: number,
   first_name?: string,
-  middle_name?: string,
+  mid_name?: string,
   last_name?: string,
   email?: string,
   mobile?: number,
@@ -15,7 +15,10 @@ export interface Graduate {
   shoot_date?: string,
   time_period?: string,
   shoot_time?: string,
-  receipt_details?: string
+  receipt_details?: string,
+  initial_payment?: number,
+  balance?: number,
+  agreed_to_rules?: boolean,
   approved?: boolean
 }
 

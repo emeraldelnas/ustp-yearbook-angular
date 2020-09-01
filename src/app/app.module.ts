@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule, NbSpinnerModule, NbAlertModule, NbDialogModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule, NbSpinnerModule, NbAlertModule, NbDialogModule, NbAutocompleteModule, NbCheckboxModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { NgxAuthModule } from './auth/auth.module';
@@ -86,6 +86,8 @@ import { GraduateService } from './services/graduate.service';
     NbSpinnerModule,
     NbAlertModule,
     NbDialogModule.forRoot(),
+    NbAutocompleteModule,
+    NbCheckboxModule,
   ],
   providers: [NbFirebasePasswordStrategy, AuthGuard, GraduateService],
   bootstrap: [AppComponent]

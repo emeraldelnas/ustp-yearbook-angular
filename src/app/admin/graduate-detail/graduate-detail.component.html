@@ -1,7 +1,7 @@
 <div>
-  <nb-card *ngIf="graduate$ | async as graduate" size="medium" class="card-table">
+  <nb-card *ngIf="graduate$ | async as graduate" size="large" class="card-table">
     <nb-card-header>
-      <p class="idno-label">ID No.</p>
+      <p class="idno-label">ID No. {{confirmForm.invalid}}</p>
       {{graduate.id_number}}
     </nb-card-header>
     <nb-card-body>
@@ -55,8 +55,16 @@
       </div>
     </nb-card-body>
     <nb-card-footer>
-      <button *ngIf="!graduate.approved" (click)="approve(true)" nbButton size="small" status="success">Approve</button>
-      <button *ngIf="graduate.approved" (click)="approve(false)" nbButton size="small" status="danger">Disapprove</button>
+      <form [formGroup]="confirmForm" (ngSubmit)="approve(true, graduate)" *ngIf="!graduate.approved">
+        <div class="payment-block">
+          <div class="form-control">
+            <label class="label" for="initial_payment">Initial payment:</label>
+            <input nbInput type="number" formControlName="initial_payment" name="initial_payment" id="initial_payment" placeholder="0000">
+          </div>
+        </div>
+        <button [disabled]="confirmForm.invalid" nbButton size="small" status="success">Approve</button>
+      </form>
+      <button *ngIf="graduate.approved" (click)="disapprove()" nbButton size="small" status="danger">Disapprove</button>
     </nb-card-footer>
   </nb-card>
 

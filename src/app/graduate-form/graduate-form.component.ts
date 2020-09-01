@@ -4,10 +4,13 @@ import { NbDateService, NbDialogService } from '@nebular/theme';
 
 import { DateFormatService } from '../services/date-format.service';
 import { GraduateService } from '../services/graduate.service';
-import { Graduate } from '../models/graduate';
+
 import { AngularFirestore } from '@angular/fire/firestore';
-import { debounceTime, take, map, switchMap } from 'rxjs/operators';
-import { timer, of } from 'rxjs';
+import { debounceTime, take, map, switchMap, startWith } from 'rxjs/operators';
+import { Observable, timer, of } from 'rxjs';
+
+import { Graduate } from '../models/graduate';
+import { CourseGroup } from '../models/coursegroup';
 
 @Component({
   selector: 'app-graduate-form',
@@ -15,6 +18,12 @@ import { timer, of } from 'rxjs';
   styleUrls: ['./graduate-form.component.scss']
 })
 export class GraduateFormComponent implements OnInit {
+
+  courseGroups: CourseGroup[];
+  filteredCourseGroup$: Observable<CourseGroup[]>;
+
+  colleges: string[];
+  filteredColleges$: Observable<string[]>;
 
   submitted = false;
   success = false;
@@ -42,8 +51,8 @@ export class GraduateFormComponent implements OnInit {
     private dialogService: NbDialogService,
     ) {
 
-    this.minDate = new Date('2020, 7');
-    this.maxDate = new Date('2020, 9');
+    this.minDate = new Date('2020, 9, 7');
+    this.maxDate = new Date('2020, 9, 8');
   }
 
   checkDetails(dialog: TemplateRef<any>) {
@@ -65,6 +74,109 @@ export class GraduateFormComponent implements OnInit {
     //   .catch(errors => {
     //     console.error(errors);
     //   });
+
+
+    this.colleges = [
+      'College of Technology',
+      'College of Science and Mathematics',
+      'College of Engineering and Architecture',
+      'College of Science and Technology Education',
+      'College of Information Technology and Computing'
+    ];
+
+    this.filteredColleges$ = of(this.colleges);
+    this.filteredColleges$ = this.college.valueChanges
+      .pipe(
+        startWith(''),
+        map(filterString => this.filterColleges(filterString)),
+      );
+
+
+    this.courseGroups = [
+      {
+        college: 'CT',
+        courses: [
+          'B.S. in Automotive Mechanical Technology Major in Automotive Technology',
+          'B.S. in Automotive Mechanical Technology Major in Mechanical Technology',
+          'B.S. in Electrical and Technology Management',
+          'B.S. in Electro-Mechanical Technology',
+          'B.S. in Electronics and Communication Technology'
+        ]
+      },
+      {
+        college: 'CSM',
+        courses: [
+          'B.S. in Applied Mathematics',
+          'B.S. in Applied Physical Sciences',
+          'B.S. in Chemistry',
+          'B.S. in Environmental Science and Technology',
+          'B.S. in Food Science and Technology',
+          'M.S. in Applied Mathematical Sciences',
+          'M.S. in Environmental Science and Technology Major in Natural Science',
+          'PH. D. in Mathematical Sciences (Applied Mathematics)'
+        ]
+      },
+      {
+        college: 'CEA',
+        courses: [
+          'B.S. in Architecture',
+          'B.S. in Civil Engineering',
+          'B.S. in Electrical Engineering',
+          'B.S. in Electronics Engineering',
+          'B.S. in Mechanical Engineering',
+          'Master of Engineering – Civil Engineering',
+          'Master of Engineering – Mechanical Engineering',
+          'Master of Engineering – Electrical Engineering',
+          'Master of Science in Electrical Engineering',
+          'Master of Science in Sustainable Development Major in Urban Planning and Sustainable Development',
+          'Professional Science Master of Power Systems Engineering and Management'
+        ]
+      },
+      {
+        college: 'CSTE',
+        courses: [
+          'Bachelor of Elementary Education Major in Special Education',
+          'Bachelor of Public Administration',
+          'Bachelor of Secondary Education Major in Mathematics',
+          'Bachelor of Secondary Education Major in Physical Sciences',
+          'Bachelor of Secondary Education Major in Technology and Livelihood Education',
+          'Bachelor of Technical Teacher Education',
+          'Post-Baccalaureate Certificate of Teaching',
+          'Post-Graduate Diploma in Special Education',
+          'Master of Arts in Teaching English as a Second Language',
+          'Master of Arts in Teaching Special Education',
+          'Master of Science in Teaching Physical Sciences Major in Physics',
+          'Master of Science in Science Education Major in Chemistry',
+          'Master of Science in Teaching Mathematics',
+          'Master in Education Planning and Management',
+          'Master in Public Administration',
+          'Master in Technician Teacher Education',
+          'Doctor in Technology Education',
+          'Doctor of Philosophy in Science Education Major in Chemistry',
+          'Doctor of Philosophy in Educational Planning and Management',
+          'Doctor of Philosophy in Mathematical Sciences Major in Mathematics Education',
+          'Doctor in Public Administration Masters/Doctors of Philosophy in Science Education - Chemistry Straight Program'
+        ]
+      },
+      {
+        college: 'CITC',
+        courses: [
+          'B.S. in Computer Engineering',
+          'B.S. in Information Technology',
+          'B.S. in Technology Communication Management',
+          'B.S. in Data Science',
+          'Master of Science in Technology Communication Management',
+          'Master of Information Technology'
+        ]
+      }
+    ];
+
+    this.filteredCourseGroup$ = of(this.courseGroups);
+    this.filteredCourseGroup$ = this.course.valueChanges
+      .pipe(
+        startWith(''),
+        map(filterString => this.filter(filterString)),
+      );
   }
 
 
@@ -104,13 +216,14 @@ export class GraduateFormComponent implements OnInit {
         Validators.maxLength(400)
       ]],
       package: ['', Validators.required],
-      shoot_date: [new Date(2020, 7), Validators.required],
+      shoot_date: [this.minDate, Validators.required],
       time_period: ['', Validators.required],
       shoot_time: ['', Validators.required],
       receipt_details: ['', [
         Validators.required,
         Validators.maxLength(500)
-      ]]
+      ]],
+      agreed_to_rules: [false, Validators.requiredTrue],
     });
   }
 
@@ -191,10 +304,31 @@ export class GraduateFormComponent implements OnInit {
 
 
 
+  private filterColleges(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.colleges.filter(optionValue => optionValue.toLowerCase().includes(filterValue));
+  }
 
 
+  private filterCourses(courses: string[], filterValue: string) {
+    return courses.filter(optionValue => optionValue.toLowerCase().includes(filterValue));
+  }
 
+  private filter(value: string): CourseGroup[] {
+    const filterValue = value.toLowerCase();
+    return this.courseGroups
+      .map(group => {
+        return {
+          college: group.college,
+          courses: this.filterCourses(group.courses, filterValue),
+        }
+      })
+      .filter(group => group.courses.length);
+  }
 
+  trackByFn(index, item) {
+    return item.name;
+  }
 
 
 
@@ -274,6 +408,10 @@ export class GraduateFormComponent implements OnInit {
 
   get receipt_details(): AbstractControl {
     return this.graduateForm.get('receipt_details');
+  }
+
+  get agreed_to_rules(): AbstractControl {
+    return this.graduateForm.get('agreed_to_rules');
   }
 }
 

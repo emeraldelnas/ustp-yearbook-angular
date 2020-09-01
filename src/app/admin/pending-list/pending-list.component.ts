@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { GraduateService } from '../../services/graduate.service';
 import { Observable } from 'rxjs';
 import { Graduate } from 'src/app/models/graduate';
@@ -18,19 +18,15 @@ export class PendingListComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
     private gs: GraduateService,
   ) { }
 
   ngOnInit(): void {
-    this.route.firstChild?.params.subscribe(params => {
-      this.selectedId = params.id;
-    });
-
     this.pendingGraduates = this.gs.getGraduatesByApproved(false);
   }
 
   goToBooking(id: string) {
+    this.selectedId = id;
     this.router.navigate(['admin/dash/pending/' + id]);
   }
 

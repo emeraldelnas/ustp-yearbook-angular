@@ -1,11 +1,11 @@
 export const environment = {
   production: true,
   firebase: {
-    apiKey: "AIzaSyC-LyMelSxq-2RYuxttFtUb_fH7ggXlKfg",
-    authDomain: "ustp-yearbook-1d789.firebaseapp.com",
-    databaseURL: "https://ustp-yearbook-1d789.firebaseio.com",
-    projectId: "ustp-yearbook-1d789",
-    storageBucket: "ustp-yearbook-1d789.appspot.com",
-    messagingSenderId: "435463744719",
+    apiKey: "AIzaSyCq0umcjRKYPj6PCnZRhu1KVHZ405OFUZQ",
+    authDomain: "ustpyb.firebaseapp.com",
+    databaseURL: "https://ustpyb.firebaseio.com",
+    projectId: "ustpyb",
+    storageBucket: "ustpyb.appspot.com",
+    messagingSenderId: "229050660913",
   }
 };

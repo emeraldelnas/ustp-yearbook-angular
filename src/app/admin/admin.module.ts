@@ -10,6 +10,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { NbFirebasePasswordStrategy } from '@nebular/firebase-auth';
 import { GraduateDetailComponent } from './graduate-detail/graduate-detail.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,6 +22,7 @@ import { ApprovedListComponent } from './approved-list/approved-list.component';
   ],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
     NbLayoutModule,
     NbSidebarModule.forRoot(),
     NbButtonModule,
