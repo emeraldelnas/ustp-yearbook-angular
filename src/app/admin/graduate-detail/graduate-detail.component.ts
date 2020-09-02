@@ -393,7 +393,7 @@ export class GraduateDetailComponent implements OnInit {
                                         <br></span>
                                     </p>
                                     <p style="margin: 0px; padding: 0px;">
-                                      <span style="font-size: 14px; color: #3f3f3f;">Should you encounter the same problem, you may contact us at 09978755566 for immediate response.
+                                      <span style="font-size: 14px; color: #3f3f3f;">Should you encounter the same problem, you may contact us at 0936-182-7129 for immediate response.
                                         <br></span>
                                     </p>
                                     <p style="margin: 0px; padding: 0px;">

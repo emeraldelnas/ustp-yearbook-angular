@@ -22,14 +22,11 @@ export class ApprovedListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.route.firstChild?.params.subscribe(params => {
-      this.selectedId = params.id;
-    });
-
     this.approvedGraduates = this.gs.getGraduatesByApproved(true);
   }
 
   goToBooking(id: string) {
+    this.selectedId = id;
     this.router.navigate(['admin/dash/approved/' + id]);
   }
 }
