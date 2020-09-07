@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NbLayoutModule, NbSidebarModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbActionsModule } from '@nebular/theme';
+import { NbLayoutModule, NbSidebarModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbActionsModule, NbDatepickerModule } from '@nebular/theme';
 
 import { DashComponent } from './dash/dash.component';
 import { PendingListComponent } from './pending-list/pending-list.component';
@@ -10,7 +10,10 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { NbFirebasePasswordStrategy } from '@nebular/firebase-auth';
 import { GraduateDetailComponent } from './graduate-detail/graduate-detail.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { OpenDatesComponent } from './open-dates/open-dates.component';
+import { MainboardComponent } from './mainboard/mainboard.component';
+import { BookingReportComponent } from './booking-report/booking-report.component';
 
 
 @NgModule({
@@ -19,10 +22,14 @@ import { ReactiveFormsModule } from '@angular/forms';
     PendingListComponent,
     GraduateDetailComponent,
     ApprovedListComponent,
+    OpenDatesComponent,
+    MainboardComponent,
+    BookingReportComponent,
   ],
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    FormsModule,
     NbLayoutModule,
     NbSidebarModule.forRoot(),
     NbButtonModule,
@@ -32,6 +39,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     NbInputModule,
     AdminRoutingModule,
     NbActionsModule,
+    NbDatepickerModule.forRoot(),
   ],
   exports: [
   ],

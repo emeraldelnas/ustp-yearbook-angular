@@ -5,12 +5,17 @@ import { DashComponent } from './dash/dash.component';
 import { PendingListComponent } from './pending-list/pending-list.component';
 import { GraduateDetailComponent } from './graduate-detail/graduate-detail.component';
 import { ApprovedListComponent } from './approved-list/approved-list.component';
+import { MainboardComponent } from './mainboard/mainboard.component';
 
 export const routes: Routes = [
   {
     path: 'dash',
     component: DashComponent,
     children: [
+      {
+        path: 'main',
+        component: MainboardComponent
+      },
       {
         path: 'pending',
         component: PendingListComponent,

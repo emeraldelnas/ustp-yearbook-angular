@@ -1,0 +1,19 @@
+// .mainboard {
+//   display: flex;
+//   grid-gap: 2rem;
+
+//   nb-card {
+//     &:first-child {
+//       width: 100%;
+//       max-width: 70%;
+//     }
+//   }
+// }
+
+
+@media (min-width: 1367px) {
+  nb-card {
+    width: 100%;
+    max-width: 90%;
+  }
+}

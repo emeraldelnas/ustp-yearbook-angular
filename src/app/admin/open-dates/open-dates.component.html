@@ -1,0 +1,14 @@
+<legend style="margin-top: 4rem; margin-bottom: 1rem;"><strong>Opened Dates</strong></legend>
+<div class="form-control">
+  <label for="fromPicker" class="label">From</label>
+  <input nbInput [(ngModel)]="fromDate" placeholder="Pick Date" [nbDatepicker]="fromPicker" id="fromPicker">
+  <nb-datepicker #fromPicker></nb-datepicker>
+</div>
+<div class="form-control">
+  <label for="toPicker" class="label">To</label>
+  <input nbInput [(ngModel)]="toDate" placeholder="Pick Date" [nbDatepicker]="toPicker" id="toPicker">
+  <nb-datepicker #toPicker></nb-datepicker>
+</div>
+
+<p *ngIf="saved" class="saved-indicator">Saved</p>
+<button nbButton (click)="updateOpenedDates()" outline status="success">Update</button>

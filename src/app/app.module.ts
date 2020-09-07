@@ -46,7 +46,7 @@ import { SettingsService } from './services/settings.service';
           name: 'password',
           login: {
             redirect: {
-              success: '/admin/dash',
+              success: '/admin/dash/main',
             },
           },
           logout: {

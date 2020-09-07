@@ -92,7 +92,7 @@ export class GraduateFormComponent implements OnInit {
       id_number: ['',
         [
           Validators.required,
-          Validators.pattern(/^\d{10}$/)
+          Validators.pattern(/^\d{5,10}$/)
         ],
         CustomValidator.checkIdNo(this.afs)
       ],
@@ -301,7 +301,8 @@ export class GraduateFormComponent implements OnInit {
 
 
   submit(ref) {
-    this.submitted = true;
+    if(this.graduateForm.valid) {
+      this.submitted = true;
 
     const graduate: Graduate = this.graduateForm.value;
     graduate.birthday = this.df.formatDate(this.graduateForm.value.birthday);
@@ -318,7 +319,7 @@ export class GraduateFormComponent implements OnInit {
       .catch(value => {
         console.error('Something went wrong...');
       });
-
+    }
   }
 
 
@@ -444,7 +445,7 @@ export class CustomValidator {
 
       const idNo = control.value;
 
-      if(idNo.length != 10) {
+      if(idNo.length < 5 && idNo.length > 10) {
         return of(null);
       }
 

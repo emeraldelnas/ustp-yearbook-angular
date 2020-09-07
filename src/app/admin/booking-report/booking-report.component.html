@@ -1,0 +1,28 @@
+<div class="form-control">
+  <label for="shootDate" class="label">Shoot Date</label>
+  <input nbInput [(ngModel)]="shootDate" fieldSize="small" placeholder="Pick Date" [nbDatepicker]="shootDatePicker" id="shootDate">
+  <nb-datepicker #shootDatePicker (dateChange)="onShootDateChange($event)"></nb-datepicker>
+</div>
+<div>
+  <div>
+    <table class="custom-table" width="100">
+      <tr>
+        <th>Name</th>
+        <th>College</th>
+        <th>Course</th>
+        <th>Shoot Date</th>
+        <th style="text-align: right;">Shoot Time</th>
+      </tr>
+      <tr *ngFor="let graduate of currentDateGraduates">
+        <td>{{graduate.last_name}}, {{graduate.first_name}} {{graduate.mid_name}}</td>
+        <td>{{getCollegeShort(graduate.college)}}</td>
+        <td>{{graduate.course}}</td>
+        <td>{{graduate.shoot_date}}</td>
+        <td style="text-align: right;">{{graduate.shoot_time}} {{graduate.time_period}}</td>
+      </tr>
+    </table>
+  </div>
+  <div>
+
+  </div>
+</div>

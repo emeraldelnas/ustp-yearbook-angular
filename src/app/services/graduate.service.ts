@@ -5,6 +5,7 @@ import { Graduate } from '../models/graduate';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { DateFormatService } from './date-format.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class GraduateService {
 
   graduatesSnapshot: any;
 
-  constructor(public afs: AngularFirestore) {
+  constructor(public afs: AngularFirestore, private df: DateFormatService) {
     // this.initGraduateService();
   }
 
@@ -57,6 +58,22 @@ export class GraduateService {
         const id = a.payload.doc.id;
 
         return {id, ...data};
+      }))
+    )
+  }
+
+  getGraduatesByShootDate(shoot_date: string) {
+    return this.afs.collection('graduates', ref => {
+      return ref.where('shoot_date', '==', shoot_date);
+    }).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Graduate;
+        const id = a.payload.doc.id;
+        const shoot_time_obj = this.df.createTime(data.shoot_time).getTime();
+
+        data.shoot_time = this.df.formatTime(this.df.createTime(data.shoot_time), true);
+
+        return {id, shoot_time_obj, ...data};
       }))
     )
   }

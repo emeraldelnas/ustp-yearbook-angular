@@ -23,4 +23,8 @@ export class SettingsService {
     )
   }
 
+  updateOpenedDates(openedDates: OpenedDates) {
+    return this.afs.doc('settings/open').update(openedDates);
+  }
+
 }

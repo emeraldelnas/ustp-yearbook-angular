@@ -19,7 +19,7 @@ export class DashComponent implements OnInit {
     {
       title: 'Dashboard',
       icon: 'grid-outline',
-      link: '/admin/dash'
+      link: '/admin/dash/main'
     },
     {
       title: 'Pending List',
