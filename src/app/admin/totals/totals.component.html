@@ -1,0 +1,10 @@
+<div class="totals" *ngIf="totals$ | async as total">
+  <div>
+    <label>Total collected</label>
+    <p>{{total.total_initial | currency:'PHP':'symbol-narrow':'4.2-2'}}</p>
+  </div>
+  <div>
+    <label>Total receivable</label>
+    <p>{{total.total_balance | currency:'PHP':'symbol-narrow':'4.2-2'}}</p>
+  </div>
+</div>

@@ -14,6 +14,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { OpenDatesComponent } from './open-dates/open-dates.component';
 import { MainboardComponent } from './mainboard/mainboard.component';
 import { BookingReportComponent } from './booking-report/booking-report.component';
+import { TotalsComponent } from './totals/totals.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { BookingReportComponent } from './booking-report/booking-report.componen
     OpenDatesComponent,
     MainboardComponent,
     BookingReportComponent,
+    TotalsComponent,
   ],
   imports: [
     CommonModule,

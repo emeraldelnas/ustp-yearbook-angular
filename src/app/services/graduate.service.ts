@@ -6,6 +6,7 @@ import { Graduate } from '../models/graduate';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { DateFormatService } from './date-format.service';
+import { firestore } from 'firebase/app';
 
 @Injectable({
   providedIn: 'root'
@@ -88,6 +89,13 @@ export class GraduateService {
 
   approveGraduate(docId: string, status: boolean, data?: Graduate) {
 
+    const batch = this.afs.firestore.batch();
+    const graduateRef = this.afs.doc('graduates/' + docId).ref;
+    const totalInitialPaymentRef = this.afs.doc('graduates/--total_initial_payment--').ref;
+    let increaseInitial = firestore.FieldValue.increment(0);
+    let increaseBalance = firestore.FieldValue.increment(0);
+
+
     let updatedFields: any = {
       "approved": false
     }
@@ -98,9 +106,18 @@ export class GraduateService {
         "balance": data.balance,
         "approved": true
       }
+
+      increaseInitial = firestore.FieldValue.increment(data.initial_payment);
+      increaseBalance = firestore.FieldValue.increment(data.balance);
     }
 
-    return this.afs.doc('graduates/' + docId).update(updatedFields);
+    batch.update(graduateRef, updatedFields);
+    batch.update(totalInitialPaymentRef, {total_initial: increaseInitial});
+    batch.update(totalInitialPaymentRef, {total_balance: increaseBalance});
+
+    // return this.afs.doc('graduates/' + docId).update(updatedFields);
+
+    return batch.commit();
   }
 
 
@@ -109,5 +126,9 @@ export class GraduateService {
     return this.afs.doc('graduates/' + docId).delete();
   }
 
+
+  getTotals() {
+    return this.afs.doc('graduates/--total_initial_payment--').valueChanges();
+  }
 
 }

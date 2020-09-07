@@ -18,6 +18,10 @@
         <p>{{graduate.receipt_details}}</p>
       </div>
       <div class="detail">
+        <p>Initial payment</p>
+        <p>{{graduate.initial_payment}}</p>
+      </div>
+      <div class="detail">
         <p>Balance</p>
         <p>{{graduate.balance}}</p>
       </div>
@@ -68,10 +72,10 @@
         </div>
         <div style="display: flex;">
           <button [disabled]="confirmForm.invalid" nbButton size="small" status="success">Approve</button>
-          <button (click)="disapprove(graduate.email)" nbButton size="small" status="danger" style="margin-left: auto; margin-right: 0;">Disapprove</button>
+          <!-- <button (click)="disapprove(graduate.email)" nbButton size="small" status="danger" style="margin-left: auto; margin-right: 0;">Disapprove</button> -->
         </div>
       </form>
-      <button *ngIf="graduate.approved" (click)="disapprove(graduate.email)" nbButton size="small" status="danger">Disapprove</button>
+      <!-- <button *ngIf="graduate.approved" (click)="disapprove(graduate.email)" nbButton size="small" status="danger">Disapprove</button> -->
     </nb-card-footer>
   </nb-card>
 
