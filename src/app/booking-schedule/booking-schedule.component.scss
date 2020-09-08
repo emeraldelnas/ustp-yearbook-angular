@@ -1,0 +1,15 @@
+@import '../styles/card-table';
+@import '../styles/table';
+
+nb-card {
+  width: 100%;
+  max-width: 75rem;
+  margin: 0 auto;
+}
+
+.controls {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}

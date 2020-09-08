@@ -4,7 +4,7 @@
     <input nbInput [(ngModel)]="shootDate" fieldSize="small" placeholder="Pick Date" [nbDatepicker]="shootDatePicker" id="shootDate">
     <nb-datepicker #shootDatePicker (dateChange)="onShootDateChange($event)"></nb-datepicker>
   </div>
-  <button nbButton (click)="printDiv()" outline status="success">Print</button>
+  <button nbButton (click)="printDiv()" outline status="primary">Print</button>
 </div>
 <div>
   <div id="booking-report">

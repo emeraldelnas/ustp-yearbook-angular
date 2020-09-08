@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { DateFormatService } from 'src/app/services/date-format.service';
-import { GraduateService } from 'src/app/services/graduate.service';
+import { GraduateService } from '../services/graduate.service';
+import { DateFormatService } from '../services/date-format.service';
 
 @Component({
-  selector: 'app-booking-report',
-  templateUrl: './booking-report.component.html',
-  styleUrls: ['./booking-report.component.scss']
+  selector: 'app-booking-schedule',
+  templateUrl: './booking-schedule.component.html',
+  styleUrls: ['./booking-schedule.component.scss']
 })
-export class BookingReportComponent implements OnInit {
+export class BookingScheduleComponent implements OnInit {
 
-  shootDate = new Date();
+  shootDate;
   currentDateGraduates;
 
   colleges = [
@@ -20,13 +20,7 @@ export class BookingReportComponent implements OnInit {
     'College of Information Technology and Computing'
   ];
 
-  collegesShort = [
-    'CT',
-    'CSM',
-    'CEA',
-    'CSTE',
-    'CITC'
-  ];
+  collegesShort = [ 'CT', 'CSM', 'CEA', 'CSTE', 'CITC' ];
 
   constructor(
     private gs: GraduateService,

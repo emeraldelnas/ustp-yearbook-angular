@@ -3,6 +3,7 @@ import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
 
 import { AuthGuard } from './auth/guard/auth-guard.service';
 import { GraduateFormComponent } from './graduate-form/graduate-form.component';
+import { BookingScheduleComponent } from './booking-schedule/booking-schedule.component';
 
 const routes: Routes = [
   {
@@ -16,6 +17,7 @@ const routes: Routes = [
   },
 
   {  path: '', component: GraduateFormComponent  },
+  {  path: 'schedules', component: BookingScheduleComponent  },
   // {  path: '**', redirectTo: '/'  }
 
 ];

@@ -4,7 +4,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule, NbSpinnerModule, NbAlertModule, NbDialogModule, NbAutocompleteModule, NbCheckboxModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
@@ -25,16 +25,20 @@ import { GraduateFormComponent } from './graduate-form/graduate-form.component';
 import { GraduateService } from './services/graduate.service';
 import { SettingsService } from './services/settings.service';
 
+import { BookingScheduleComponent } from './booking-schedule/booking-schedule.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     GraduateFormComponent,
+    BookingScheduleComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     AppRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
     NoopAnimationsModule,
     NbThemeModule.forRoot({ name: 'default' }),
     NbEvaIconsModule,
