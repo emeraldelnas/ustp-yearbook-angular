@@ -1,2 +1,8 @@
 @import '../../styles/card-table';
 @import '../../styles/table';
+
+.controls {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}

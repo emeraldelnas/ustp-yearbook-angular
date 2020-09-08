@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 
 
 export interface Totals {
-  total_initial?: number;
-  total_balance?: number;
+  total_initial?: number,
+  total_balance?: number,
+  total_approved?: number,
 }
 
 @Component({

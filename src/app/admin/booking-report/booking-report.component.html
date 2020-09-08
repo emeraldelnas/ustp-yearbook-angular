@@ -1,16 +1,19 @@
-<div class="form-control">
-  <label for="shootDate" class="label">Shoot Date</label>
-  <input nbInput [(ngModel)]="shootDate" fieldSize="small" placeholder="Pick Date" [nbDatepicker]="shootDatePicker" id="shootDate">
-  <nb-datepicker #shootDatePicker (dateChange)="onShootDateChange($event)"></nb-datepicker>
+<div class="controls">
+  <div class="form-control">
+    <label for="shootDate" class="label">Shoot Date</label>
+    <input nbInput [(ngModel)]="shootDate" fieldSize="small" placeholder="Pick Date" [nbDatepicker]="shootDatePicker" id="shootDate">
+    <nb-datepicker #shootDatePicker (dateChange)="onShootDateChange($event)"></nb-datepicker>
+  </div>
+  <button nbButton (click)="printDiv()" outline status="success">Print</button>
 </div>
 <div>
-  <div>
-    <table class="custom-table" width="100">
+  <div id="booking-report">
+    <table class="custom-table" width="100%">
       <tr>
-        <th>Name</th>
-        <th>College</th>
-        <th>Course</th>
-        <th>Shoot Date</th>
+        <th style="text-align: left;">Name</th>
+        <th style="text-align: left;">College</th>
+        <th style="text-align: left;">Course</th>
+        <th style="text-align: left;">Shoot Date</th>
         <th style="text-align: right;">Shoot Time</th>
       </tr>
       <tr *ngFor="let graduate of currentDateGraduates">

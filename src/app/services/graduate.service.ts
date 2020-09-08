@@ -91,9 +91,10 @@ export class GraduateService {
 
     const batch = this.afs.firestore.batch();
     const graduateRef = this.afs.doc('graduates/' + docId).ref;
-    const totalInitialPaymentRef = this.afs.doc('graduates/--total_initial_payment--').ref;
+    const totalInitialPaymentRef = this.afs.doc('graduates/--totals--').ref;
     let increaseInitial = firestore.FieldValue.increment(0);
     let increaseBalance = firestore.FieldValue.increment(0);
+    let increaseApproved = firestore.FieldValue.increment(0);
 
 
     let updatedFields: any = {
@@ -109,13 +110,13 @@ export class GraduateService {
 
       increaseInitial = firestore.FieldValue.increment(data.initial_payment);
       increaseBalance = firestore.FieldValue.increment(data.balance);
+      increaseApproved = firestore.FieldValue.increment(1);
     }
 
     batch.update(graduateRef, updatedFields);
     batch.update(totalInitialPaymentRef, {total_initial: increaseInitial});
     batch.update(totalInitialPaymentRef, {total_balance: increaseBalance});
-
-    // return this.afs.doc('graduates/' + docId).update(updatedFields);
+    batch.update(totalInitialPaymentRef, {total_approved: increaseApproved});
 
     return batch.commit();
   }
@@ -128,7 +129,7 @@ export class GraduateService {
 
 
   getTotals() {
-    return this.afs.doc('graduates/--total_initial_payment--').valueChanges();
+    return this.afs.doc('graduates/--totals--').valueChanges();
   }
 
 }
