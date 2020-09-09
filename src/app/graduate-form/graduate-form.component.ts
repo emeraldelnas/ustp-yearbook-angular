@@ -92,7 +92,7 @@ export class GraduateFormComponent implements OnInit {
       id_number: ['',
         [
           Validators.required,
-          Validators.pattern(/^\d{5,10}$/)
+          Validators.pattern(/^\d{5,15}$/)
         ],
         CustomValidator.checkIdNo(this.afs)
       ],
