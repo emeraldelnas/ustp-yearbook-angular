@@ -272,10 +272,10 @@ export class GraduateFormComponent implements OnInit {
 
 
   populateTime() {
-    let start = this.df.createTime("08:00");
+    let start = this.df.createTime("09:00");
     let end = this.df.createTime("17:00");
     let breakTime = {from: this.df.createTime("11:59"), to: this.df.createTime("13:00")};
-    let minsToAdd = 12;
+    let minsToAdd = 21;
 
     let time = start;
 
