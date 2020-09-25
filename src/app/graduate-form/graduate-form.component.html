@@ -20,7 +20,7 @@
           <p>Please review all details before submitting to avoid any errors. Once you submit, you certify that all information is correct. The USTP YBEP 2020 assumes no responsibility or liability for any errors based on the information you have given.</p>
         </div>
 
-        <form [formGroup]="graduateForm" (ngSubmit)="checkDetails(dialog)" class="step-container">
+        <form [formGroup]="graduateForm" (ngSubmit)="openDialog(dialog)" class="step-container">
           <div class="form-groups">
             <div class="form-control">
               <label class="label" for="id_number">ID No:</label>
@@ -462,6 +462,19 @@ Date paid:"
   </nb-layout-column>
 </nb-layout>
 
+<ng-template #timeTakenDialog let-data let-ref="dialogRef">
+  <nb-card accent="danger" size="tiny" class="confirm-dialog">
+    <nb-card-header>Shoot time already taken.</nb-card-header>
+    <nb-card-body>
+      <p>Ooops, it looks like somebody just booked your selected shooting time before you could submit your booking.</p>
+      <p>Kindly <strong>change your shooting time</strong> in order to continue. Thank you!</p>
+    </nb-card-body>
+    <nb-card-footer>
+      <button nbButton status="basic" (click)="ref.close()">Close</button>
+    </nb-card-footer>
+  </nb-card>
+</ng-template>
+
 <ng-template #dialog let-data let-ref="dialogRef">
   <nb-card accent="primary" class="confirm-dialog">
     <nb-card-header>Confirm details:</nb-card-header>
@@ -520,7 +533,7 @@ Date paid:"
       </div>
     </nb-card-body>
     <nb-card-footer>
-      <button nbButton status="success" (click)="submit(ref)">Submit</button>
+      <button nbButton status="success" (click)="submit(timeTakenDialog, ref)">Submit</button>
       <button nbButton status="basic" (click)="ref.close()">Cancel</button>
     </nb-card-footer>
   </nb-card>

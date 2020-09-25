@@ -79,6 +79,20 @@ export class GraduateService {
     )
   }
 
+  getShootTimeByShootDate(shoot_date: string) {
+    return this.afs.collection('graduates', ref => {
+      return ref.where('shoot_date', '==', shoot_date);
+    }).snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as Graduate;
+
+        data.shoot_time = this.df.formatTime(this.df.createTime(data.shoot_time), true);
+
+        return data.shoot_time;
+      }))
+    )
+  }
+
   getGraduate(docId: string) {
     return this.afs.doc('graduates/' + docId).valueChanges();
   }

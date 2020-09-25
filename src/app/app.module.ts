@@ -6,7 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule, NbSpinnerModule, NbAlertModule, NbDialogModule, NbAutocompleteModule, NbCheckboxModule } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbButtonModule, NbMenuModule, NbIconModule, NbCardModule, NbInputModule, NbStepperModule, NbDatepickerModule, NbRadioModule, NbSpinnerModule, NbAlertModule, NbDialogModule, NbAutocompleteModule, NbCheckboxModule, NbToastrModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 
 import { NgxAuthModule } from './auth/auth.module';

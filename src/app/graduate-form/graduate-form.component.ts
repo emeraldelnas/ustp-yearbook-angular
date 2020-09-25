@@ -59,7 +59,7 @@ export class GraduateFormComponent implements OnInit {
     this.maxDate = new Date('2020, 9, 8');
   }
 
-  checkDetails(dialog: TemplateRef<any>) {
+  openDialog(dialog: TemplateRef<any>) {
     this.dialogService.open(dialog);
   }
 
@@ -303,25 +303,52 @@ export class GraduateFormComponent implements OnInit {
   }
 
 
-  submit(ref) {
+  isTimeAlreadyTaken(shootDate: string, shootTime: string): boolean {
+
+    const formattedShootTime = this.df.formatTime(this.df.createTime(shootTime), true);
+    let isExisting = false;
+
+    this.gs.getShootTimeByShootDate(shootDate).subscribe(
+      graduates => {
+        isExisting = graduates.includes(formattedShootTime);
+      }
+    );
+
+    return isExisting;
+  }
+
+
+  submit(timeTakenDialog: TemplateRef<any>, ref) {
     if(this.graduateForm.valid) {
       this.submitted = true;
 
-    const graduate: Graduate = this.graduateForm.value;
-    graduate.birthday = this.df.formatDate(this.graduateForm.value.birthday);
-    graduate.shoot_date = this.df.formatDate(this.graduateForm.value.shoot_date);
-    graduate.approved = false;
+      const graduate: Graduate = this.graduateForm.value;
+      graduate.birthday = typeof(this.graduateForm.value.birthday) === 'object' ? this.df.formatDate(this.graduateForm.value.birthday) : this.graduateForm.value.birthday;
+      graduate.shoot_date = typeof(this.graduateForm.value.shoot_date) === 'object' ? this.df.formatDate(this.graduateForm.value.shoot_date) : this.graduateForm.value.shoot_date;
+      const formattedShootTime = this.df.formatTime(this.df.createTime(this.graduateForm.value.shoot_time), true);
+      graduate.approved = false;
 
-    this.gs.addGraduate(graduate)
-      .then(value => {
-        ref.close();
-        this.submitted = false;
-        this.initGraduateForm();
-        this.success = true;
-      })
-      .catch(value => {
-        console.error('Something went wrong...');
-      });
+
+      this.gs.getShootTimeByShootDate(graduate.shoot_date).pipe(take(1)).subscribe(
+        graduates => {
+          if(graduates.includes(formattedShootTime)) {
+            ref.close();
+            this.graduateForm.get('shoot_time').reset();
+            this.openDialog(timeTakenDialog);
+          } else {
+            this.gs.addGraduate(graduate)
+            .then(value => {
+              ref.close();
+              this.submitted = false;
+              this.initGraduateForm();
+              this.success = true;
+            })
+            .catch(value => {
+              console.error('Something went wrong...');
+            });
+          }
+        }
+      );
     }
   }
 
