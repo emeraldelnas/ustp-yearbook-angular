@@ -261,7 +261,7 @@
             <div class="form-groups">
               <div class="form-control">
                 <label class="label" for="shoot_date">Shoot Date</label>
-                <input nbInput fullWidth id="shoot_date" [nbDatepicker]="shoot_date" formControlName="shoot_date">
+                <input nbInput fullWidth id="shoot_date" [nbDatepicker]="shoot_date" formControlName="shoot_date" placeholder="Pick Date">
                 <nb-datepicker #shoot_date [min]="minDate" [max]="maxDate" (dateChange)="onDateChange($event)"></nb-datepicker>
               </div>
 
@@ -296,6 +296,11 @@
                     {{ timeSlot.time }} {{ timeSlot.period }}
                   </nb-radio>
                 </nb-radio-group>
+                <ng-container *ngIf="time_period.valid && filterTimeSlotsOfType(time_period.value).length < 1">
+                  <p class="error-message" *ngIf="shoot_time.errors?.required">
+                    Sorry, fully booked. Please change period (AM or PM) or select a different shoot date.
+                  </p>
+                </ng-container>
                 <ng-container *ngIf="shoot_time.invalid && submitted">
                   <p class="error-message" *ngIf="shoot_time.errors?.required">
                     Shoot time is required!

@@ -71,7 +71,7 @@ export class GraduateFormComponent implements OnInit {
 
     this.populateTime();
 
-    this.onDateChange(new Date(2020, 7));
+    // this.onDateChange(this.minDate);
 
     // this.fa.signInAnonymously()
     //   .then(() => {
@@ -139,7 +139,7 @@ export class GraduateFormComponent implements OnInit {
       if(dates) {
         this.minDate = new Date(dates.from);
         this.maxDate = new Date(dates.to);
-        this.graduateForm.get('shoot_date').setValue(this.minDate);
+        // this.graduateForm.get('shoot_date').setValue(this.minDate);
       }
     });
   }
@@ -273,7 +273,7 @@ export class GraduateFormComponent implements OnInit {
 
   populateTime() {
     let start = this.df.createTime("09:00");
-    let end = this.df.createTime("17:00");
+    let end = this.df.createTime("16:31");
     let breakTime = {from: this.df.createTime("11:59"), to: this.df.createTime("13:00")};
     let minsToAdd = 21;
 
@@ -295,6 +295,9 @@ export class GraduateFormComponent implements OnInit {
 
       time = this.df.addMinutes(time, minsToAdd);
 
+      if((time > breakTime.from && time < breakTime.to)) {
+        time = this.df.createTime("13:00");
+      }
     }
 
   }
