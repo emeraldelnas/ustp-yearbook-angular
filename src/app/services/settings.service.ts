@@ -5,6 +5,7 @@ import { OpenedDates } from '../models/openeddates';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { firestore } from 'firebase';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,13 @@ export class SettingsService {
 
 
   constructor(public afs: AngularFirestore) { }
+
+  // using firebase server's timestamp
+  testing() {
+    return this.afs.collection('settings').add({
+      testDate: firestore.Timestamp.now()
+    });
+  }
 
   getOpenedDates() {
 
